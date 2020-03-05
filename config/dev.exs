@@ -47,9 +47,15 @@ config :islands_vue_client, Islands.Vue.ClientWeb.Endpoint,
     ]
   ]
 
+config :islands_vue_client, Islands.Vue.ClientWeb.Endpoint,
+  ws_url: "ws://localhost:4000/socket/websocket"
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
+
+config :log_reset, reset?: true
+config :file_only_logger, log?: true

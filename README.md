@@ -1,19 +1,43 @@
-# Islands.Vue.Client
+# Islands Vue Client - Vue Components + Vuex
 
-To start your Phoenix server:
+Web interface for the _Game of Islands_
+featuring **_Vue Components_** and **_Vuex_**.
 
-  * Install dependencies with `mix deps.get`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+##### Based on the book [Functional Web Development](https://pragprog.com/book/lhelph/functional-web-development-with-elixir-otp-and-phoenix) by Lance Halvorsen.
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+## Installation
 
-## Learn more
+1. Install Elixir dependencies:
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+    ```sh
+    mix deps.get
+    ```
+
+2. Install Node.js dependencies:
+
+    ```sh
+    cd assets && npm install
+    ```
+
+    You may see some warnings, but they can be safely ignored.
+
+3. Make sure the assets build:
+
+    ```sh
+    cd assets && node node_modules/.bin/brunch build
+    ```
+
+4. Make sure all the tests pass:
+
+    ```sh
+    mix test
+    ```
+
+5. Fire up the Phoenix endpoint:
+
+    ```sh
+    mix phx.server
+    ```
+
+6. Visit [`localhost:4000`](http://localhost:4000) to play the game!

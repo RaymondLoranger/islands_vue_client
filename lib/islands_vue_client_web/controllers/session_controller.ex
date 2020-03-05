@@ -8,17 +8,16 @@ defmodule Islands.Vue.ClientWeb.SessionController do
   end
 
   def create(conn, %{"player" => %{"name" => name, "gender" => gender}}) do
-    this = self()
-    player = Player.new(name, gender, this)
+    player = Player.new(name, String.to_atom(gender), self())
 
     conn
-    |> put_session(:current_player, player)
+    |> put_session(:player, player)
     |> redirect_back_or_to_new_game
   end
 
   def delete(conn, _) do
     conn
-    |> delete_session(:current_player)
+    |> delete_session(:player)
     |> redirect(to: "/")
   end
 

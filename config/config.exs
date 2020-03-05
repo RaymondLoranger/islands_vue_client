@@ -20,7 +20,7 @@ config :islands_vue_client, Islands.Vue.ClientWeb.Endpoint,
   render_errors: [view: Islands.Vue.ClientWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Islands.Vue.Client.PubSub, adapter: Phoenix.PubSub.PG2]
 
-config :islands_vue_client, salt: "player auth"
+config :islands_vue_client, salt: "state auth"
 
 # Configures Elixir's Logger
 config :logger, :console,

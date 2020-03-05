@@ -1,33 +1,71 @@
 defmodule Islands.Vue.ClientWeb.GameController do
   use Islands.Vue.ClientWeb, :controller
 
-  alias Islands.Engine
   alias Islands.Vue.Client.HaikuName
+  alias Islands.Client.State
+  alias Islands.{Engine, Player}
 
   @salt Application.get_env(:islands_vue_client, :salt)
 
   plug :require_player
 
-  def new(conn, _) do
-    render(conn, "new.html")
-  end
-
-  def create(conn, %{"game" => %{"name" => name, "gender" => gender}}) do
+  def new(conn, _params) do
     game_name = HaikuName.generate()
-    this = self()
+    %Player{name: name, gender: gender, pid: pid} = get_session(conn, :player)
 
-    case Engine.new_game(game_name, name, gender, this) do
+    case Engine.new_game(game_name, name, gender, pid) do
       {:ok, _game_pid} ->
-        redirect(conn, to: game_path(conn, :show, game_name))
+        state = State.new(game_name, :player1, name, gender)
+
+        conn
+        |> put_session(:state, state)
+        |> put_flash(:info, "#{name}, please invite an opponent to join.")
+        |> put_flash(:error, "#{name}, please wait for an opponent to join.")
+        |> show(game_name)
 
       {:error, _error} ->
         conn
         |> put_flash(:error, "Unable to start game!")
-        |> redirect(to: game_path(conn, :new))
+        |> redirect(to: session_path(conn, :new))
     end
   end
 
-  def show(conn, %{"id" => game_name}) do
+  def join(conn, %{"id" => game_name} = _params) do
+    %Player{name: name, gender: gender, pid: pid} = get_session(conn, :player)
+    Engine.add_player(game_name, name, gender, pid)
+    state = State.new(game_name, :player2, name, gender)
+    tally = Engine.position_all_islands(game_name, :player2)
+    hits_and_misses(game_name, tally)
+
+    conn
+    |> put_session(:state, state)
+    |> put_flash(:info, "#{name}, you've joined the game.")
+    |> put_flash(:error, "#{name}, please wait for your opponent to play.")
+    |> show(game_name)
+  end
+
+  ## Private functions
+
+  defp hits_and_misses(game_name, tally) do
+    Engine.position_all_islands(game_name, :player1)
+    Engine.set_islands(game_name, :player1)
+    Engine.set_islands(game_name, :player2)
+    board = tally.board
+    islands = board.islands
+    atoll = islands.atoll
+    atoll_coords = atoll.coords
+    %{row: row, col: col} = atoll_coords |> MapSet.to_list() |> List.first()
+    Engine.guess_coord(game_name, :player1, row, col)
+    Engine.guess_coord(game_name, :player2, 10, 10)
+    %{row: row, col: col} = atoll_coords |> MapSet.to_list() |> List.last()
+    Engine.guess_coord(game_name, :player1, row, col)
+    Engine.guess_coord(game_name, :player2, 9, 10)
+    Engine.guess_coord(game_name, :player1, 1, 5)
+    Engine.guess_coord(game_name, :player2, 8, 10)
+    Engine.guess_coord(game_name, :player1, 1, 6)
+  end
+
+  defp show(conn, game_name) do
     case Engine.game_pid(game_name) do
       pid when is_pid(pid) ->
         conn
@@ -38,14 +76,12 @@ defmodule Islands.Vue.ClientWeb.GameController do
       nil ->
         conn
         |> put_flash(:error, "Game not found!")
-        |> redirect(to: game_path(conn, :new))
+        |> redirect(to: session_path(conn, :new))
     end
   end
 
-  ## Private functions
-
   defp require_player(conn, _opts) do
-    if get_session(conn, :current_player) do
+    if get_session(conn, :player) do
       conn
     else
       conn
@@ -56,7 +92,7 @@ defmodule Islands.Vue.ClientWeb.GameController do
   end
 
   defp generate_auth_token(conn) do
-    current_player = get_session(conn, :current_player)
-    Phoenix.Token.sign(conn, @salt, current_player)
+    state = get_session(conn, :state)
+    Phoenix.Token.sign(conn, @salt, state)
   end
 end
