@@ -47,9 +47,6 @@ config :islands_vue_client, Islands.Vue.ClientWeb.Endpoint,
     ]
   ]
 
-config :islands_vue_client, Islands.Vue.ClientWeb.Endpoint,
-  ws_url: "ws://localhost:4000/socket/websocket"
-
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 

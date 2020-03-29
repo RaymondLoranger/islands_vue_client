@@ -11,11 +11,13 @@
         <div class="form-group">
           <label class="radio-inline">
             <%= radio_button f, :gender, "m", checked: true %>
-            <img src="<%= static_path(@conn, "/images/male.png") %>" alt="Male" width="30">
+            <img src="<%= static_path(@conn, "/images/male.png") %>"
+                 alt="Male" width="30">
           </label>
           <label class="radio-inline">
             <%= radio_button f, :gender, "f" %>
-            <img src="<%= static_path(@conn, "/images/female.png") %>" alt="Female" width="30">
+            <img src="<%= static_path(@conn, "/images/female.png") %>"
+                 alt="Female" width="30">
           </label>
         </div>
       </div>

@@ -1,103 +1,193 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
-    <p>{{ greeting() }}</p>
-    <div class="across">
-      <BoardBox :board="board" :positions="positions"/>
-      <GuessesBox/>
+    <GameUrl/>
+    <Response/>
+    <Directive/>
+    <Error/>
+    <div class="grid">
+      <BoardScore class="left score"/>
+      <GuessesScore class="center score"/>
+      <Players class="right players"/>
+
+      <BoardBox class="left box"/>
+      <GuessesBox class="center box"/>
+      <Messages class="right messages"/>
+
+      <StartControl class="left control"/>
+      <PlayControl class="center control"/>
+      <ChatForm class="right chat-form"/>
     </div>
   </div>
 </template>
 
 <script>
 import BoardBox from './components/BoardBox.vue'
+import BoardScore from './components/BoardScore.vue'
+import ChatForm from './components/ChatForm.vue'
+import Directive from './components/Directive.vue'
+import Error from './components/Error.vue'
+import GameUrl from './components/GameUrl.vue'
 import GuessesBox from './components/GuessesBox.vue'
+import GuessesScore from './components/GuessesScore.vue'
+import Messages from './components/Messages.vue'
+import PlayControl from './components/PlayControl.vue'
+import Players from './components/Players.vue'
+import Response from './components/Response.vue'
+import StartControl from './components/StartControl.vue'
 import { Socket, Presence } from "phoenix"
+import { mapActions } from 'vuex'
 
 export default {
+  name: 'App',
   components: {
     BoardBox,
-    GuessesBox
-  },
-  data: () => {
-    return {
-      error: '',
-      title: '--- The Game of Islands ---',
-      board: { islands: {}, misses: [] }, // empty board
-      positions: { // See Functional Web Development, page 13
-        atoll: { row: 1, col: 1 },
-        dot: { row: 9, col: 9 },
-        l_shape: { row: 3, col: 7 },
-        s_shape: { row: 6, col: 2 },
-        square: { row: 9, col: 5 }
-      },
-      player: {
-        name: 'Adam',
-        gender: 'M',
-        hits: 4,
-        misses: 7,
-        forested: ['a', 'l', 'd']
-      },
-      opponent: {
-        name: 'Eve',
-        gender: 'F',
-        hits: 6,
-        misses: 11,
-        forested: ['s', 'q']
-      }
-    }
+    BoardScore,
+    ChatForm,
+    Directive,
+    Error,
+    GameUrl,
+    GuessesBox,
+    GuessesScore,
+    Messages,
+    PlayControl,
+    Players,Response,
+    StartControl
   },
   methods: {
-    greeting: () => 'Howdy, Sir!',
-    setPosition(island) {
-      if (typeof island !== 'undefined') {
-        this.positions[island.type] = island.coords.reduce((acc, coord) => ({
-          row: Math.min(acc.row, coord.row),
-          col: Math.min(acc.col, coord.col)
-        }))
-      }
-    },
-    joinChannel(authToken, gameName) {
+    ...mapActions([
+      'pushMessage',
+      'setBoardScore',
+      'setChannel',
+      'setDirective',
+      'setError',
+      'setGameState',
+      'setGameUrl',
+      'setGuessesHits',
+      'setGuessesMisses',
+      'setGuessesScore',
+      'setHits',
+      'setMisses',
+      'setPlayerId',
+      'setPlayers',
+      'setPositions',
+      'setResponse'
+    ]),
+    joinChannel(authToken, gameName, gameUrl, playerId) {
       const socket = new Socket('/socket', { params: { token: authToken } })
       socket.connect()
-      this.channel = socket.channel(`games:${gameName}`, {})
-      this.channel.on('game_tally', tally => {
-        const { board } = tally
-        const { islands } = board
-        const { atoll, dot, l_shape, s_shape, square} = islands
-        this.setPosition(atoll)
-        this.setPosition(dot)
-        this.setPosition(l_shape)
-        this.setPosition(s_shape)
-        this.setPosition(square)
-        this.board = board
+      const channel = socket.channel(`games:${gameName}`, {})
+      channel.on('island_hits', hits => this.setHits(hits))
+      channel.on('island_misses', misses => this.setMisses(misses))
+      channel.on('guesses_hits', hits => this.setGuessesHits(hits))
+      channel.on('guesses_misses', misses => this.setGuessesMisses(misses))
+      channel.on('new_chat_message', message => this.pushMessage(message))
+      channel.on('response', response => this.setResponse(response))
+      channel.on('directive', directive => this.setDirective(directive))
+      channel.on('error', error => this.setError(error))
+      channel.on('game_state', state => this.setGameState(state))
+      let presences = {}
+
+      channel.on('island_positions', positions => {
+        this.setPositions(positions)
       })
-      this.channel
-        .join()
-        .receive('ok', response => {
+
+      channel.on('presence_state', state => {
+        presences = Presence.syncState(presences, state)
+        this.setPlayers(presences)
+      })
+
+      channel.on('presence_diff', diff => {
+        presences = Presence.syncDiff(presences, diff)
+        this.setPlayers(presences)
+      })
+
+      channel.on('board_score', score => {
+        this.setBoardScore(score) // Must precede setPlayers.
+        this.setPlayers(presences)
+      })
+
+      channel.on('guesses_score', score => {
+        this.setGuessesScore(score) // Must precede setPlayers.
+        this.setPlayers(presences)
+      })
+
+      channel.join()
+        .receive('ok', _response => {
+          this.setPlayerId(playerId)
+          this.setGameUrl(gameUrl)
+          this.setChannel(channel)
           console.log(`Joined ${gameName} 😊`)
         })
-        .receive('error', response => {
-          this.error = `Joining ${gameName} failed 🙁`
-          console.log(this.error, response)
+        .receive('error', error => {
+          this.setError(error)
+          console.log('error:', error)
         })
     }
   },
   created() {
-    const gameContainer = this.$parent.$el
-    const { authToken, gameName } = gameContainer.dataset
-    this.joinChannel(authToken, gameName)
+    const joinChannelData = document.querySelector('#join-channel-data')
+    const { authToken, gameName, gameUrl, playerId } = joinChannelData.dataset
+    this.joinChannel(authToken, gameName, gameUrl, playerId)
   }
 }
 </script>
 
+<style scoped>
+.grid {
+  border: 1px red solid;
+  display: grid;
+  width: 96vw;
+  margin: 15px auto;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 2fr repeat(5 calc(96vw / 12)) 1fr;
+  grid-gap: 3px;
+  align-items: stretch;
+  justify-items: stretch;
+}
+.left {
+  grid-column: 1 / span 5;
+  /* align-self: stretch; */
+}
+.center {
+  grid-column: 6 / span 5;
+  /* align-self: stretch; */
+}
+.right {
+  grid-column: 11 / span 2;
+  /* align-self: stretch; */
+}
+.score {
+  grid-row: 1 / span 2;
+  /* justify-self: stretch; */
+}
+.box {
+  grid-row: 3 / span 5;
+}
+.control {
+  grid-row: 8 / span 1;
+}
+.players {
+  grid-row: 1 / span 2;
+  /* align-self: start; */
+}
+.messages {
+  grid-row: 3 / span 5;
+  /* align-self: stretch; */
+}
+.chat-form {
+  grid-row: 8 / span 1;
+  /* align-self: center; */
+}
+</style>
+
 <style>
-body {
-  background: Khaki;
+#join-channel-data {
+  display: none;
 }
 .across {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 .square {
   background:Chocolate;
@@ -105,7 +195,7 @@ body {
 .hit {
   background: ForestGreen;
 }
-.missed {
+.miss {
   background: DodgerBlue;
 }
 

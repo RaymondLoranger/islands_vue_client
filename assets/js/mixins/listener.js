@@ -4,40 +4,30 @@ function gridPosition (gridColumnStart, gridRowStart) {
   return { gridColumnStart, gridRowStart }
 }
 
-function isValidPosition (position, dimension) {
-  const { gridColumnStart, gridRowStart } = position
-  const { squaresAcross, squaresDown } = dimension
-  const xStart = gridColumnStart
-  const xEnd = gridColumnStart + squaresAcross - 1
-  const yStart = gridRowStart
-  const yEnd = gridRowStart + squaresDown - 1
-  return (1 <= xStart && xEnd <= 10) && (1 <= yStart && yEnd <= 10)
-}
-
 export default {
   name: 'listener',
-  computed: mapGetters(['getDimension']),
+  computed: mapGetters(['getChannel']),
   methods: {
-    ...mapActions(['position']),
-    dragEnter (e) {
+    ...mapActions(['setPosition']),
+    dragEnter(e) {
       e.preventDefault()
     },
-    dragOver (e) {
+    dragOver(e) {
       e.preventDefault()
     },
-    dragLeave (e) {
+    dragLeave(e) {
       e.preventDefault()
     },
-    drop (e) {
+    drop(e) {
       e.preventDefault()
       const { islandId, x, y, offsetX, offsetY } = this.getData(e)
       const position = gridPosition(x - offsetX, y - offsetY)
-      const dimension = this.getDimension(islandId)
-      if (isValidPosition(position, dimension)) {
-        this.position({ islandId, position }) // payload must be only argument
-      }
+      // Enable stack orders of child squares.
+      document.getElementById(islandId).style.zIndex = 'auto'
+      this.setPosition({ islandId, position }) // Payload must be only argument.
+      this.getChannel.push('position_island', { islandId, position })
     },
-    getData (e) {
+    getData(e) {
       const data = e.dataTransfer.getData('text')
       const { islandId, offsetX, offsetY } = JSON.parse(data)
       let { x, y } = this.locateDrop(e)

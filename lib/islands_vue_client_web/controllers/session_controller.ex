@@ -24,6 +24,7 @@ defmodule Islands.Vue.ClientWeb.SessionController do
   ## Private functions
 
   defp redirect_back_or_to_new_game(conn) do
+    # Nil 'return_to' path if going to '/sessions/new' instead of '/games/new'.
     path = get_session(conn, :return_to) || game_path(conn, :new)
 
     conn

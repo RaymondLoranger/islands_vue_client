@@ -33,33 +33,54 @@ export default {
 </script>
 
 <style scoped>
-ul#messages {
-  height: 128px;
+/* ul#messages {
+  min-height: 200px;
+  max-height: 200px;
   overflow-y: scroll;
   font-size: 0.8em;
+} */
+ul#messages {
+  /* height: 128px; */
+  /* min-height: 200px;
+  max-height: 200px; */
+  /* min-height: 20vw;
+  max-height: 30vw; */
+  min-height: calc(3 * 96vw / 12);
+  max-height: calc(3 * 96vw / 12);
+  overflow-y: scroll;
+  font-size: 1.2vw;
+  /* font-size: 2vw; */
 }
-@media (min-width: 650px) { /* styles for browsers larger than 650px */
-  ul#messages {
+/* @media (min-width: 650px) { */ /* styles for browsers larger than 650px */
+  /* ul#messages {
     height: 182px;
     font-size: 1em;
   }
-}
-@media (min-width: 990px) { /* styles for browsers larger than 990px */
-  ul#messages {
+} */
+/* @media (min-width: 990px) { */ /* styles for browsers larger than 990px */
+  /* ul#messages {
     height: 298px;
     font-size: 1em;
   }
-}
-@media (min-width: 1200px) { /* styles for browsers larger than 1200px */
-  ul#messages {
+} */
+/* @media (min-width: 1200px) { */ /* styles for browsers larger than 1200px */
+  /* ul#messages {
     height: 405px;
     font-size: 1em;
   }
-}
+} */
 ul#messages .message-sender {
   font-weight: bold;
 }
 ul#messages .message-body {
   font-weight: 550;
+}
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 2px 3px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
 }
 </style>

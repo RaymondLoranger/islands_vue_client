@@ -29,7 +29,7 @@ defmodule Islands.Vue.ClientWeb.UserSocket do
   # max_age: 86400 is equivalent to one day in seconds
   def connect(%{"token" => token}, socket) do
     case Phoenix.Token.verify(socket, @salt, token, max_age: 86400) do
-      {:ok, state} -> {:ok, assign(socket, :state, state)}
+      {:ok, player_state} -> {:ok, assign(socket, :player_state, player_state)}
       {:error, _reason} -> :error
     end
   end

@@ -16,8 +16,10 @@ export default {
 #tags-down {
   box-sizing: content-box;
   position: relative;
-  width: 50px;
-  height: calc(50px * 10 + 9px);
+  /* width: 50px;
+  height: calc(50px * 10 + 9px); */
+  width: 3vw;
+  height: calc(3vw * 10 + 9px);
   display: grid;
   grid-template: repeat(10, 1fr) / 1fr;
   grid-gap: 1px;
@@ -28,11 +30,13 @@ export default {
   background: lightgray;
   text-align: center;
   vertical-align: middle;
-  line-height: 50px;
+  /* line-height: 50px; */
+  line-height: 3vw;
   font-weight: 600;
-  font-size: 2em;
+  /* font-size: 2em; */
+  font-size: 2vw;
 }
-@media screen and (max-width: 1350px) {
+/* @media screen and (max-width: 1350px) {
   #tags-down {
     width: 40px;
     height: calc(40px * 10 + 9px);
@@ -61,5 +65,5 @@ export default {
     line-height: 20px;
     font-size: 1em;
   }
-}
+} */
 </style>

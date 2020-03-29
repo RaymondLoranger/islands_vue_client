@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <div class="container">
+    <div class="my-container">
       <header>
         <nav>
           <ul class="nav nav-pills pull-right">
@@ -48,27 +48,28 @@
         </div>
       </header>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <p class="flash alert alert-info"
+         role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="flash alert alert-danger"
+         role="alert"><%= get_flash(@conn, :error) %></p>
 
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
 
       <footer>
-        built with
+        Built with
         <a href="http://elixir-lang.org/" target="_blank">Elixir</a> +
         <a href="http://www.phoenixframework.org/" target="_blank">Phoenix</a> +
-        <a href="https://vuejs.org/" target="_blank">Vue</a>
+        <a href="https://vuejs.org/" target="_blank">Vue</a> +
+        <a href="https://vuex.vuejs.org/" target="_blank">Vuex</a>
         by
-        <a href="https://twitter.com/pragmaticstudio"
-           target="_blank">@pragmaticstudio</a>
+        <a href="https://github.com/RaymondLoranger"
+           target="_blank">Raymond Loranger</a>
       </footer>
 
     </div> <!-- /container -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js">
-    </script>
-    <script src="<%= static_path(@conn, "/js/app.js") %>">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

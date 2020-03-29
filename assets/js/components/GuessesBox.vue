@@ -1,8 +1,8 @@
 <template>
   <div class="guesses-box">
-    <section class="across">
+    <!-- <section class="across">
       <Player/>
-    </section>
+    </section> -->
     <section class="across">
       <Corner/>
       <TagsAcross/>
@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import Corner from '@/components/Corner.vue'
-import TagsAcross from '@/components/TagsAcross.vue'
-import TagsDown from '@/components/TagsDown.vue'
-import Guesses from '@/components/Guesses.vue'
-import Player from '@/components/Player.vue'
+import Corner from './Corner.vue'
+import TagsAcross from './TagsAcross.vue'
+import TagsDown from './TagsDown.vue'
+import Guesses from './Guesses.vue'
+import Player from './Player.vue'
 
 export default {
   name: 'GuessesBox',
@@ -42,6 +42,7 @@ export default {
 
 <style>
 .guesses-box {
-  margin: 0 15px;
+  /* margin: 0 15px; */
+  margin: 0 0;
 }
 </style>

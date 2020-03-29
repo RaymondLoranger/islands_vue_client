@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <p>
-      <span>Adam <img src="../assets/male.png" height="22" width="22"></span>
+      <span>Eve <img src="/images/female.png" height="22" width="22"></span>
     </p>
     <p><span>Hits:  4   Misses:  7</span></p>
     <p><span>Forested => A D L S Q</span></p>
@@ -24,5 +24,3 @@ p {
   font-weight: 600;
 }
 </style>
-
-

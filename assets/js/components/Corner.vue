@@ -13,10 +13,12 @@ export default {
   box-sizing: content-box;
   background: lightgray;
   border: 1px solid white;
-  width: 50px;
-  height: 50px;
+  /* width: 50px;
+  height: 50px; */
+  width: 3vw;
+  height: 3vw;
 }
-@media screen and (max-width: 1350px) {
+/* @media screen and (max-width: 1350px) {
   .corner {
     width: 40px;
     height: 40px;
@@ -33,5 +35,5 @@ export default {
     width: 20px;
     height: 20px;
   }
-}
+} */
 </style>

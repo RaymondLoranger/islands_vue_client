@@ -1,16 +1,5 @@
 import { mapGetters } from 'vuex'
 
-function stack(e) { // dragged island must cover other islands
-  let maxIndex = 0
-  const islands = document.querySelectorAll('.visible')
-  for (const island of islands) {
-    let zIndex = parseInt(island.style.zIndex)
-    zIndex = Number.isNaN(zIndex) ? 0 : zIndex
-    maxIndex = Math.max(maxIndex, zIndex)
-  }
-  e.target.style.zIndex = ++maxIndex
-}
-
 function offset(classAttr) { // e.g. 'c2' => { offsetX: 2, offsetY: 1 }
   const offsetX = classAttr.charCodeAt(0) - 'a'.charCodeAt(0)
   const offsetY = classAttr.charCodeAt(1) - '1'.charCodeAt(0)
@@ -23,7 +12,9 @@ export default {
   methods: {
     dragStart(e) {
       this.setData(e)
-      stack(e)
+      // Dragged island must cover other islands.
+      // Disable stack orders of child squares.
+      e.target.style.zIndex = 1
       setTimeout(() => e.target.classList.add('hidden'), 0)
     },
     dragEnd(e) {
@@ -42,13 +33,13 @@ export default {
       const data = { islandId: e.target.id, offsetX, offsetY }
       e.dataTransfer.setData('text', JSON.stringify(data))
     },
-    locateDrop(e) { // the drop target element is some island square
+    locateDrop(e) { // The drop target element is some island square.
       const { offsetX, offsetY } = offset(e.target.classList[0])
       const islandId = e.target.parentElement.id
       const { gridColumnStart, gridRowStart } = this.getPosition(islandId)
       const x = gridColumnStart + offsetX
       const y = gridRowStart + offsetY
-      return { x, y } // return grid position of cursor on drop event
+      return { x, y } // Return grid position of cursor on drop event.
     }
   }
 }

@@ -9,9 +9,10 @@ defmodule Islands.Vue.Client.Application do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the endpoint when the application starts
-      supervisor(Islands.Vue.ClientWeb.Endpoint, [])
+      supervisor(Islands.Vue.ClientWeb.Endpoint, []),
       # Start your own worker by calling: Islands.Vue.Client.Worker.start_link(arg1, arg2, arg3)
       # worker(Islands.Vue.Client.Worker, [arg1, arg2, arg3]),
+      supervisor(Islands.Vue.ClientWeb.Presence, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

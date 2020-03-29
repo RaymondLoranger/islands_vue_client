@@ -18,9 +18,6 @@ config :islands_vue_client, Islands.Vue.ClientWeb.Endpoint,
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
-config :islands_vue_client, Islands.Vue.ClientWeb.Endpoint,
-  ws_url: "wss://slow-roast-12345.herokuapp.com/socket/websocket"
-
 # Do not print debug messages in production
 config :logger, level: :info
 
