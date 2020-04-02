@@ -16,7 +16,7 @@ defmodule Islands.Vue.ClientWeb.GameController do
 
     case Engine.new_game(game_name, name, gender, pid) do
       {:ok, _game_pid} ->
-        show(conn, State.new(game_name, :player1, name, gender))
+        show(conn, State.new(game_name, :player1, name, gender, basic: true))
 
       {:error, _error} ->
         conn
@@ -32,7 +32,7 @@ defmodule Islands.Vue.ClientWeb.GameController do
     case tally.game_state do
       :initialized ->
         Engine.add_player(game_name, name, gender, pid)
-        show(conn, State.new(game_name, :player2, name, gender))
+        show(conn, State.new(game_name, :player2, name, gender, basic: true))
 
       _invalid_state ->
         conn
@@ -47,6 +47,8 @@ defmodule Islands.Vue.ClientWeb.GameController do
          conn,
          %State{game_name: game_name, player_id: player_id} = player_state
        ) do
+    # IO.inspect(player_state, label: "%%%%%% PLAYER_STATE %%%%%%")
+
     conn
     |> assign(:player_id, player_id)
     |> assign(:game_url, game_url(conn, :join, game_name))

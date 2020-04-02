@@ -11,7 +11,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Error occurred. Reason => #{inspect(reason)}.
+        Error occurred. Reason ➜ #{inspect(reason)}.
         """
       })
   end
@@ -25,22 +25,32 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
       })
   end
 
-  def push(:overlapping_island, socket, {id, row, col}) do
+  def push(:overlapping_island, socket, {island_id, row, col}) do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Cannot position #{String.upcase(id)} at (#{row}, #{col}) =>
+        Cannot position #{String.upcase(island_id)} at (#{row}, #{col}) ➜
         island overlap.
         """
       })
   end
 
-  def push(:invalid_coordinates, socket, {id, row, col}) do
+  def push(:invalid_coordinates, socket, {island_id, row, col}) do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Cannot position #{String.upcase(id)} at (#{row}, #{col}) =>
+        Cannot position #{String.upcase(island_id)} at (#{row}, #{col}) ➜
         invalid coordinates.
+        """
+      })
+  end
+
+  def push(:invalid_island_location, socket, {island_id, row, col}) do
+    :ok =
+      Channel.push(socket, "response", %{
+        text: """
+        Cannot position #{String.upcase(island_id)} at (#{row}, #{col}) ➜
+        invalid location.
         """
       })
   end
@@ -158,7 +168,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Your guess (#{row}, #{col}) => miss.
+        Your guess (#{row}, #{col}) ➜ miss.
         """
       })
   end
@@ -167,7 +177,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Opponent's guess (#{row}, #{col}) => miss.
+        Opponent's guess (#{row}, #{col}) ➜ miss.
         """
       })
   end
@@ -176,7 +186,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Opponent's guess (#{row}, #{col}) => hit.
+        Opponent's guess (#{row}, #{col}) ➜ hit.
         """
       })
   end
@@ -185,7 +195,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Opponent's guess (#{row}, #{col}) =>
+        Opponent's guess (#{row}, #{col}) ➜
         #{island_type |> Atom.to_string() |> String.upcase()} forested.
         """
       })
@@ -195,7 +205,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Your guess (#{row}, #{col}) => hit.
+        Your guess (#{row}, #{col}) ➜ hit.
         """
       })
   end
@@ -204,7 +214,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Your guess (#{row}, #{col}) =>
+        Your guess (#{row}, #{col}) ➜
         #{island_type |> Atom.to_string() |> String.upcase()} forested.
         """
       })
@@ -284,6 +294,10 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
 
   def push(:island_positions, socket, positions) do
     :ok = Channel.push(socket, "island_positions", positions)
+  end
+
+  def push(:island_position, socket, position) do
+    :ok = Channel.push(socket, "island_position", position)
   end
 
   def push(:presence_state, socket, presences) do

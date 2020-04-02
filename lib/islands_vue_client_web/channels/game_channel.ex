@@ -5,26 +5,27 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
   import Phoenix.Channel, except: [push: 3]
 
   alias Islands.{Board, Coord, Engine, Island, Tally}
+  alias Islands.Client.{RandomGuess, State}
   alias Islands.Vue.ClientWeb.Presence
   alias Phoenix.Socket
 
   def join("games:" <> game_name, _payload, socket) do
     with pid when is_pid(pid) <- Engine.game_pid(game_name) do
-      tally = Engine.tally(game_name, :player2)
-      IO.inspect(tally, label: "++++ tally ++++")
+      # tally = Engine.tally(game_name, :player2)
+      # IO.inspect(tally, label: "++++ tally ++++")
       self() |> send({:after_join, game_name})
       {:ok, socket}
     else
-      nil -> {:error, %{reason: "Game #{game_name} does not exist!"}}
+      nil -> {:error, %{reason: "Game '#{game_name}' does not exist!"}}
     end
   end
 
   @spec handle_info(msg :: term, Socket.t()) :: {:noreply, Socket.t()}
   def handle_info({:after_join, game_name}, socket) do
-    {_, player_name, player_id, gender} = player(socket)
+    {_, player_name, player_id, gender, _, _} = player(socket)
     Engine.update_player(game_name, player_id, player_name, gender, self())
     tally = Engine.position_all_islands(game_name, player_id)
-    IO.inspect(tally, label: ";;;; tally ;;;;")
+    # IO.inspect(tally, label: ";;;; tally ;;;;")
 
     case player_id do
       :player1 ->
@@ -45,7 +46,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
   end
 
   def handle_info(:players_set, socket) do
-    {game_name, player_name, player_id, _} = player(socket)
+    {game_name, player_name, player_id, _, _, _} = player(socket)
     tally = Engine.tally(game_name, player_id)
     push(:game_state, socket, {tally.game_state})
 
@@ -63,8 +64,16 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
   end
 
   def handle_info(msg, socket) when msg in [:player1_turn, :player2_turn] do
-    {game_name, player_name, player_id, _} = player(socket)
+    {game_name, player_name, player_id, _, mode, _} = player(socket)
+    # IO.inspect(mode, label: "(((( mode ((((")
+
     tally = Engine.tally(game_name, player_id)
+    # IO.inspect(tally, label: "(((( tally ((((")
+
+    # IO.inspect(socket.assigns.player_state,
+    #   label: "(((( socket.assigns.player_state (((("
+    # )
+
     push(:game_state, socket, {tally.game_state})
 
     case tally.request do
@@ -92,14 +101,18 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
         end
     end
 
-    {:noreply, socket}
+    if mode == :auto do
+      handle_in("random_guess", %{}, socket)
+    else
+      {:noreply, socket}
+    end
   end
 
   def handle_info(:game_over, socket) do
-    {game_name, player_name, player_id, _} = player(socket)
+    {game_name, player_name, player_id, _, _, _} = player(socket)
     tally = Engine.tally(game_name, player_id)
     push(:game_state, socket, {tally.game_state})
-    IO.inspect(tally, label: "\\m/ tally \\m/")
+    # IO.inspect(tally, label: "\\m/ tally \\m/")
     {:guess_coord, _player_id, row, col} = tally.request
     {:hit, island_type, :win} = tally.response
     push(:opponent_hit, socket, {row, col, island_type})
@@ -107,13 +120,15 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
     push(:you_lost, socket, {player_name})
     push(:board_score, socket, tally.board_score)
     push(:island_hits, socket, island_hits(tally))
+    Engine.end_game(game_name)
+    # self() |> GenServer.stop()
     {:noreply, socket}
   end
 
   @spec handle_in(event :: String.t(), payload :: map, socket :: Socket.t()) ::
           {:noreply, Socket.t()}
   def handle_in("random_positions", %{}, socket) do
-    {game_name, _, player_id, _} = player(socket)
+    {game_name, _, player_id, _, _, _} = player(socket)
     tally = Engine.position_all_islands(game_name, player_id)
     push(:game_state, socket, {tally.game_state})
 
@@ -136,10 +151,10 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
   end
 
   def handle_in("set_islands", %{}, socket) do
-    {game_name, player_name, player_id, _} = player(socket)
+    {game_name, player_name, player_id, _, _, _} = player(socket)
     tally = Engine.set_islands(game_name, player_id)
     push(:game_state, socket, {tally.game_state})
-    IO.inspect(tally, label: "---- tally ----")
+    # IO.inspect(tally, label: "---- tally ----")
     opponent_gender = tally.guesses_score.gender
 
     case tally.game_state do
@@ -177,45 +192,92 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
     {:noreply, socket}
   end
 
+  def handle_in(
+        "switch_mode",
+        %{"mode" => mode, "pause" => pause} = _payload,
+        socket
+      ) do
+    # IO.inspect(payload, label: "****** SWITCH MODE PAYLOAD ******")
+    # IO.inspect(socket.assigns, label: "****** socket.assigns ******")
+    # put_in(socket.assigns.player_state.mode, :"#{mode}")
+    # put_in(socket.assigns.player_state.pause, String.to_integer(pause))
+    {mode, pause} = {String.to_atom(mode), String.to_integer(pause)}
+
+    socket =
+      update_in(
+        socket.assigns.player_state,
+        &%State{&1 | mode: mode, pause: pause}
+      )
+
+    # IO.inspect(socket.assigns, label: "****** socket.assigns ******")
+
+    if mode == :auto do
+      handle_in("random_guess", %{}, socket)
+    else
+      {:noreply, socket}
+    end
+  end
+
   def handle_in("position_island", payload, socket) do
-    {game_name, _, player_id, _} = player(socket)
-    %{"islandId" => id, "position" => position} = payload
+    {game_name, _, player_id, _, _, _} = player(socket)
+    %{"islandId" => island_id, "position" => position} = payload
     %{"gridColumnStart" => col, "gridRowStart" => row} = position
-    tally = Engine.position_island(game_name, player_id, :"#{id}", row, col)
+    type = :"#{island_id}"
+    tally = Engine.position_island(game_name, player_id, type, row, col)
     push(:game_state, socket, {tally.game_state})
-    IO.inspect(tally, label: ":::: tally ::::")
+    # IO.inspect(tally, label: ":::: tally ::::")
+    # IO.inspect(tally.response, label: ":::: tally.response ::::")
 
     case tally.response do
       {:ok, :all_islands_positioned} ->
-        push(:island_positioned, socket, {id, row, col})
-        push(:island_positions, socket, gridPositions(tally))
+        push(:island_positioned, socket, {island_id, row, col})
 
+      # push(:island_positions, socket, gridPositions(tally))
       {:error, :islands_already_set} ->
         push(:islands_already_set, socket, {})
-        push(:island_positions, socket, gridPositions(tally))
 
+      # push(:island_positions, socket, gridPositions(tally))
       {:error, :overlapping_island} ->
-        push(:overlapping_island, socket, {id, row, col})
-        push(:island_positions, socket, gridPositions(tally))
+        push(:overlapping_island, socket, {island_id, row, col})
 
+      # push(:island_positions, socket, gridPositions(tally))
       {:error, :invalid_coordinates} ->
-        push(:invalid_coordinates, socket, {id, row, col})
-        push(:island_positions, socket, gridPositions(tally))
+        push(:invalid_coordinates, socket, {island_id, row, col})
 
+      {:error, :invalid_island_location} ->
+        push(:invalid_island_location, socket, {island_id, row, col})
+
+      # push(:island_positions, socket, gridPositions(tally))
       {:error, reason} ->
         push(:error, socket, {reason})
-        push(:island_positions, socket, gridPositions(tally))
+        # push(:island_positions, socket, gridPositions(tally))
     end
 
+    push(:island_position, socket, gridPosition(type, tally))
     {:noreply, socket}
   end
 
+  def handle_in("random_guess", %{}, socket) do
+    # IO.puts("JUST RECEIVED random_guess event")
+    {game_name, _, player_id, _, mode, pause} = player(socket)
+    tally = Engine.tally(game_name, player_id)
+    square = RandomGuess.new(tally)
+    # IO.inspect(square, label: "RANDOM GUESS returned ==>")
+
+    if mode == :auto do
+      Process.sleep(pause)
+    end
+
+    handle_in("guess_coord", %{"square" => square}, socket)
+    # {:noreply, socket}
+  end
+
   def handle_in("guess_coord", %{"square" => square}, socket) do
-    {game_name, player_name, player_id, _} = player(socket)
+    {game_name, player_name, player_id, _, _, _} = player(socket)
     {row, col} = row_col(square)
     tally = Engine.guess_coord(game_name, player_id, row, col)
+    # IO.inspect(tally, label: "???? tally ????")
     push(:game_state, socket, {tally.game_state})
-    IO.inspect(tally, label: "???? tally ????")
 
     case tally.response do
       {:hit, island_type, win_check} ->
@@ -261,7 +323,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
   end
 
   def handle_in("new_chat_message", %{"body" => body}, socket) do
-    {_, player_name, _, _} = player(socket)
+    {_, player_name, _, _, _, _} = player(socket)
     broadcast!(socket, "new_chat_message", %{sender: player_name, body: body})
     {:noreply, socket}
   end
@@ -270,7 +332,8 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
 
   @spec player(Socket.t()) :: tuple
   defp player(%Socket{assigns: %{player_state: state}}) do
-    {state.game_name, state.player_name, state.player_id, state.gender}
+    {state.game_name, state.player_name, state.player_id, state.gender,
+     state.mode, state.pause}
   end
 
   @spec island_hits(tally :: Tally.t()) :: map
@@ -309,6 +372,12 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
     for {type, island} <- islands, into: %{} do
       {type, island |> origin() |> gridPosition()}
     end
+  end
+
+  @spec gridPosition(Island.type(), Tally.t()) :: map
+  defp gridPosition(type, tally) do
+    grid_position = tally.board.islands[type] |> origin() |> gridPosition()
+    %{"islandId" => type, "position" => grid_position}
   end
 
   @spec gridPosition(origin :: Coord.t()) :: map

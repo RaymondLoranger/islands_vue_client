@@ -4,7 +4,7 @@ defmodule Islands.Vue.Client.Mixfile do
   def project do
     [
       app: :islands_vue_client,
-      version: "0.0.3",
+      version: "0.0.4",
       elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -39,6 +39,7 @@ defmodule Islands.Vue.Client.Mixfile do
       {:islands_player, "~> 0.1"},
       # {:islands_tally, "~> 0.1"},
       {:islands_client_state, "~> 0.1"},
+      {:islands_client_random_guess, "~> 0.1"},
       {:phoenix, "~> 1.3.4"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_html, "~> 2.10"},
