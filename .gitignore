@@ -27,5 +27,5 @@ npm-debug.log
 /config/*.secret.exs
 
 /pencil/
-/assets/css
-/assets/js
+# /assets/css
+# /assets/js
