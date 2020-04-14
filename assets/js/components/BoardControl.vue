@@ -1,29 +1,35 @@
 <template>
   <div id="board-control">
-    <div v-if="settingIslands" class="control">
+    <div v-if="!haveBothPlayersSetIslands" class="control">
       <button @click="randomPositions"
-              class="btn btn-primary item center-block">
+              class="btn btn-primary item center-block"
+              :disabled="isGameNew || areIslandsSet">
         Random Positions
       </button>
       <button @click="setIslands"
-              class="btn btn-primary item center-block">
+              class="btn btn-primary item center-block"
+              :disabled="isGameNew || areIslandsSet">
         Set Islands
       </button>
     </div>
-    <div v-else>
-      <label class="radio-inline">
+    <div v-else class="control">
+      <label class="radio-inline item" :class="getFreezeCursor">
         <input type="radio" name="mode" id="manual" @change="switchMode"
-               value="manual" :disabled="gameOver" checked>
+               value="manual" checked
+               :disabled="!areGuessesAllowed || isGameOver">
         <span class="bold">Manual</span>
       </label>
-      <label class="radio-inline">
+      <label class="radio-inline item" :class="getFreezeCursor">
         <input type="radio" name="mode" id="auto" @change="switchMode"
-               value="auto" :disabled="gameOver">
+               value="auto"
+               :disabled="!areGuessesAllowed || isGameOver">
         <span class="bold">Auto</span>
       </label>
-      <input id="pause" type="number" v-model="pause" :disabled="gameOver"
-             >
-      <span class="bold"> ms</span>
+      <label class="item">
+        <input id="pause" type="number" v-model="pause"
+               :disabled="!areGuessesAllowed || isGameOver">
+        <span class="bold"> ms</span>
+      </label>
     </div>
   </div>
 </template>
@@ -35,18 +41,18 @@ export default {
   name: 'BoardControl',
   data() {
     return {
-      pause: "2000"
+      pause: "0" // no pause...
     }
   },
-  computed: {
-    ...mapGetters(['getChannel', 'getGameState']),
-    settingIslands() {
-      return ['initialized', 'players_set'].includes(this.getGameState)
-    },
-    gameOver() {
-      return this.getGameState === 'game_over'
-    }
-  },
+  computed: mapGetters([
+    'areGuessesAllowed',
+    'areIslandsSet',
+    'getChannel',
+    'getFreezeCursor',
+    'haveBothPlayersSetIslands',
+    'isGameNew',
+    'isGameOver'
+  ]),
   methods: {
     randomPositions() {
       this.getChannel.push('random_positions', {})
@@ -66,12 +72,11 @@ export default {
 <style scoped>
 .control {
   display: flex;
-  justify-content: space-evenly;
+  align-items: center;
+  justify-content: space-around;
 }
 .item {
-  /* flex: 1 1 0px; */
   margin: 5px 1vw;
-  /* font-size: 2vw; */
 }
 .bold {
   font-weight: bold;

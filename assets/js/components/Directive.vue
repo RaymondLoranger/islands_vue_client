@@ -1,5 +1,5 @@
 <template>
-  <p class="alert alert-success">{{ getDirective }}</p>
+  <p class="alert alert-success" v-html="getDirective"/>
 </template>
 
 <script>

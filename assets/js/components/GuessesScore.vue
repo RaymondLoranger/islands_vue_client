@@ -1,16 +1,25 @@
 <template>
   <div class="score-box">
-    <p><span>{{ name }} <img :src="img_src" height="22" width="22"></span></p>
-    <p><span>Hits:&nbsp;{{ hits }}&nbsp;&nbsp;
-             Misses:&nbsp;{{ misses }}</span></p>
     <p>
       <span>
-        <span class="forested">&nbsp;Forested </span>&nbsp;=>
-        <span :class="atoll">&nbsp;A </span>
-        <span :class="dot">&nbsp;D </span>
-        <span :class="l_shape">&nbsp;L </span>
-        <span :class="s_shape">&nbsp;S </span>
-        <span :class="square">&nbsp;Q&nbsp;</span>
+        <span v-html="getScoreTitle('guesses')"/>
+        <img v-if="getScoreImage('guesses')" :src="getScoreImage('guesses')">
+      </span>
+    </p>
+    <p>
+      <span>
+        Hits:&nbsp;{{ getScoreHits('guesses') }}&nbsp;&nbsp;
+        Misses:&nbsp;{{ getScoreMisses('guesses') }}
+      </span>
+    </p>
+    <p>
+      <span>
+        <span class="forested">&nbsp;Forested </span>&nbsp;➔
+        <span :class="getForested('guesses', 'atoll')">&nbsp;A </span>
+        <span :class="getForested('guesses', 'dot')">&nbsp;D </span>
+        <span :class="getForested('guesses', 'l_shape')">&nbsp;L </span>
+        <span :class="getForested('guesses', 's_shape')">&nbsp;S </span>
+        <span :class="getForested('guesses', 'square')">&nbsp;Q&nbsp;</span>
       </span>
     </p>
   </div>
@@ -21,46 +30,13 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'GuessesScore',
-  computed: {
-    ...mapGetters(['getGuessesScore']),
-    name() {
-      const name = this.getGuessesScore.name
-      return name === '?' ? '' : `${name}'s Board`
-    },
-    hits() {
-      return this.getGuessesScore.hits
-    },
-    misses() {
-      return this.getGuessesScore.misses
-    },
-    img_src() {
-      if (this.getGuessesScore.name === '?') {
-        return '/images/question-mark.png'
-      } else if (this.getGuessesScore.gender === 'm') {
-        return '/images/male.png'
-      } else {
-        return '/images/female.png'
-      }
-    },
-    forested_types() {
-      return this.getGuessesScore.forested_types
-    },
-    atoll() {
-      return { forested: this.forested_types.includes('atoll') }
-    },
-    dot() {
-      return { forested: this.forested_types.includes('dot') }
-    },
-    l_shape() {
-      return { forested: this.forested_types.includes('l_shape') }
-    },
-    s_shape() {
-      return { forested: this.forested_types.includes('s_shape') }
-    },
-    square() {
-      return { forested: this.forested_types.includes('square') }
-    }
-  }
+  computed: mapGetters([
+    'getForested',
+    'getScoreHits',
+    'getScoreImage',
+    'getScoreMisses',
+    'getScoreTitle'
+  ])
 }
 </script>
 
@@ -79,5 +55,9 @@ p {
 .forested {
   background: ForestGreen;
   color: White;
+}
+img {
+  height: 22px;
+  width: 22px;
 }
 </style>

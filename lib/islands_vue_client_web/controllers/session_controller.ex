@@ -9,7 +9,6 @@ defmodule Islands.Vue.ClientWeb.SessionController do
 
   def create(conn, %{"player" => %{"name" => name, "gender" => gender}}) do
     player = Player.new(name, String.to_atom(gender), self(), basic: true)
-    # IO.inspect(player, label: "^^^^^^ PLAYER ^^^^^^")
 
     conn
     |> put_session(:player, player)

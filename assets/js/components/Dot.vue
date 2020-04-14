@@ -1,9 +1,10 @@
 <template>
   <div id="dot"
-       draggable="true" @dragstart="dragStart" @dragend="dragEnd"
+       :draggable="areIslandsDraggable"
+       @dragstart="dragStart" @dragend="dragEnd"
        @dragenter="dragEnter" @dragover="dragOver" @dragleave="dragLeave"
        :class="getVisibility('dot')" :style="getPosition('dot')">
-    <div class="a1 draggable square" :class="getHit('dot', 'a1')"/>
+    <div class="a1 square" :class="[getHit('dot', 'a1'), getDraggable]"/>
   </div>
 </template>
 
@@ -15,7 +16,13 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Dot',
   mixins: [listener, islandListener],
-  computed: mapGetters(['getPosition', 'getHit', 'getVisibility'])
+  computed: mapGetters([
+    'areIslandsDraggable',
+    'getDraggable',
+    'getHit',
+    'getPosition',
+    'getVisibility'
+  ])
 }
 </script>
 
@@ -39,7 +46,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.a1.dragged {
+.a1.dragging {
   border: 1px solid White;
 }
 </style>

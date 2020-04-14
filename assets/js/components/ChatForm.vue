@@ -1,15 +1,11 @@
 <template>
   <form id="chat-form" @submit.prevent="sendChat">
     <div class="input-group">
-      <input id="chat-input"
-              type="text"
-              class="form-control"
-              v-model="chatMessage">
+      <input id="chat-input" type="text" class="form-control"
+             :disabled="isGameNew" v-model="chatMessage">
       <span class="input-group-btn">
-        <button id="chat-button"
-                class="btn btn-primary"
-                :disabled="!chatMessage"
-                @click="sendChat">
+        <button id="chat-button" class="btn btn-primary" @click="sendChat"
+                :disabled="!chatMessage">
           <i class="fa fa-comment"></i>
         </button>
       </span>
@@ -27,11 +23,11 @@ export default {
       chatMessage: ''
     }
   },
-  computed: mapGetters(['getChannel']),
+  computed: mapGetters(['getChannel', 'isGameNew']),
   methods: {
     sendChat(_event) {
       if (this.chatMessage) {
-        this.getChannel.push('new_chat_message', { body: this.chatMessage })
+        this.getChannel.push('chat_message', { body: this.chatMessage })
         this.chatMessage = ''
       }
     }

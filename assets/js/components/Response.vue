@@ -1,5 +1,5 @@
 <template>
-  <p class="alert alert-info">{{ getResponse }}</p>
+  <p class="alert alert-info" v-html="getResponse"/>
 </template>
 
 <script>
@@ -20,6 +20,5 @@ export default {
   background: none;
   font-size: 1.25em;
   font-weight: 550;
-  /* text-transform: uppercase; */
 }
 </style>

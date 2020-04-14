@@ -1,5 +1,5 @@
 <template>
-  <p class="alert alert-danger">{{ getError }}</p>
+  <p class="alert alert-danger" v-html="getError"/>
 </template>
 
 <script>
@@ -20,6 +20,5 @@ export default {
   background: none;
   font-size: 1.25em;
   font-weight: 600;
-  text-transform: uppercase;
 }
 </style>

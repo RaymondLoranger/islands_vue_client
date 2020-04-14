@@ -8,31 +8,31 @@ function offset(classAttr) { // e.g. 'c2' => { offsetX: 2, offsetY: 1 }
 
 function addOutline(islandId) {
   for (const square of document.querySelectorAll(`#${islandId} .draggable`)) {
-    square.classList.add('dragged')
+    square.classList.add('dragging')
   }
 }
 
 function removeOutline(islandId) {
-  for (const square of document.querySelectorAll(`#${islandId} .dragged`)) {
-    square.classList.remove('dragged')
+  for (const square of document.querySelectorAll(`#${islandId} .dragging`)) {
+    square.classList.remove('dragging')
   }
 }
 
 export default {
   name: 'islandListener',
-  computed: mapGetters(['getPosition', 'getDimension']),
+  computed: mapGetters(['getDimension', 'getPosition']),
   methods: {
     dragStart(e) {
       this.setData(e)
       addOutline(e.target.id)
-      // Avoid "ghost" squares while dragging.
-      e.target.style.zIndex = 0
+      // Avoid "ghost" squares while dragging island and cover other islands.
+      e.target.style.zIndex = 2
       setTimeout(_ => e.target.classList.add('hidden'), 0)
     },
     dragEnd(e) {
       e.target.classList.remove('hidden')
       removeOutline(e.target.id)
-      // Restore stack orders of child squares.
+      // Restore stack orders of island and its child squares.
       e.target.style.zIndex = 'auto'
     },
     dragHalt(e) {

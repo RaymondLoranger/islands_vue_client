@@ -1,15 +1,13 @@
 const state = {
-  messages: [],
+  messages: [], // [{ sender: 'Adam', gender: 'm', body: 'Howdy!!' }]
   response: {text: ''},
-  directive: {text: ''},
-  error: {reason: ''}
+  directive: {text: ''}
 }
 
 const getters = {
   getMessages: state => state.messages,
   getResponse: state => state.response.text,
-  getDirective: state => state.directive.text,
-  getError: state => state.error.reason
+  getDirective: state => state.directive.text
 }
 
 const actions = {
@@ -21,9 +19,6 @@ const actions = {
   },
   setDirective({ commit }, directive) {
     commit('setDirective', directive)
-  },
-  setError({ commit }, error) {
-    commit('setError', error)
   }
 }
 
@@ -36,9 +31,6 @@ const mutations = {
   },
   setDirective(state, directive) {
     state.directive = directive
-  },
-  setError(state, error) {
-    state.error = error
   }
 }
 

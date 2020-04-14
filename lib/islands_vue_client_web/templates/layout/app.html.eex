@@ -13,14 +13,13 @@
   </head>
 
   <body>
-    <div class="my-container">
+    <div class="container">
       <header>
         <nav>
           <ul class="nav nav-pills pull-right">
             <li>
               <%= link "Switch Player",
-                       to: session_path(@conn, :delete),
-                       method: :delete %>
+                       method: :delete, to: session_path(@conn, :delete) %>
             </li>
           </ul>
         </nav>
@@ -69,7 +68,12 @@
       </footer>
 
     </div> <!-- /container -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+    <div hidden> <!-- preloading images -->
+      <img src="/images/no-entry-sign.png">
+      <img src="/images/question-mark.png">
+      <img src="/images/male-sign.png">
+      <img src="/images/female-sign.png">
+    </div>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

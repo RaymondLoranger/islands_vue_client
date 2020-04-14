@@ -22,5 +22,4 @@ import "phoenix"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
-import "./copy-game-url"
 import "./vue-game"

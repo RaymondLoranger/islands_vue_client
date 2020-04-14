@@ -1,14 +1,15 @@
 <template>
   <div id="atoll"
-       draggable="true" @dragstart="dragStart" @dragend="dragEnd"
+       :draggable="areIslandsDraggable"
+       @dragstart="dragStart" @dragend="dragEnd"
        @dragenter="dragEnter" @dragover="dragOver" @dragleave="dragLeave"
        :class="getVisibility('atoll')" :style="getPosition('atoll')">
-    <div class="a1 draggable square" :class="getHit('atoll', 'a1')"/>
+    <div class="a1 square" :class="[getHit('atoll', 'a1'), getDraggable]"/>
     <div class="a2" draggable="true" @dragstart="dragHalt" @drop="drop"/>
-    <div class="b1 draggable square" :class="getHit('atoll', 'b1')"/>
-    <div class="b2 draggable square" :class="getHit('atoll', 'b2')"/>
-    <div class="a3 draggable square" :class="getHit('atoll', 'a3')"/>
-    <div class="b3 draggable square" :class="getHit('atoll', 'b3')"/>
+    <div class="b1 square" :class="[getHit('atoll', 'b1'), getDraggable]"/>
+    <div class="b2 square" :class="[getHit('atoll', 'b2'), getDraggable]"/>
+    <div class="a3 square" :class="[getHit('atoll', 'a3'), getDraggable]"/>
+    <div class="b3 square" :class="[getHit('atoll', 'b3'), getDraggable]"/>
   </div>
 </template>
 
@@ -20,7 +21,13 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Atoll',
   mixins: [listener, islandListener],
-  computed: mapGetters(['getPosition', 'getHit', 'getVisibility'])
+  computed: mapGetters([
+    'areIslandsDraggable',
+    'getDraggable',
+    'getHit',
+    'getPosition',
+    'getVisibility'
+  ])
 }
 </script>
 
@@ -46,7 +53,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.a1.dragged {
+.a1.dragging {
   border-bottom: 1px solid White;
   border-left: 1px solid White;
   border-top: 1px solid White;
@@ -56,7 +63,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.b1.dragged {
+.b1.dragging {
   border-top: 1px solid White;
   border-right: 1px solid White;
 }
@@ -70,7 +77,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.b2.dragged {
+.b2.dragging {
   border-right: 1px solid White;
   border-left: 1px solid White;
 }
@@ -79,7 +86,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.a3.dragged {
+.a3.dragging {
   border-bottom: 1px solid White;
   border-left: 1px solid White;
   border-top: 1px solid White;
@@ -89,7 +96,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.b3.dragged {
+.b3.dragging {
   border-right: 1px solid White;
   border-bottom: 1px solid White;
 }

@@ -4,7 +4,7 @@ defmodule Islands.Vue.Client.Mixfile do
   def project do
     [
       app: :islands_vue_client,
-      version: "0.0.4",
+      version: "0.0.5",
       elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -35,9 +35,13 @@ defmodule Islands.Vue.Client.Mixfile do
       {:mix_tasks,
        github: "RaymondLoranger/mix_tasks", only: :dev, runtime: false},
       {:log_reset, "~> 0.1"},
+      {:islands_board, "~> 0.1"},
+      {:islands_coord, "~> 0.1"},
       {:islands_engine, "~> 0.2"},
+      {:islands_guesses, "~> 0.1"},
+      {:islands_island, "~> 0.1"},
       {:islands_player, "~> 0.1"},
-      # {:islands_tally, "~> 0.1"},
+      {:islands_tally, "~> 0.1"},
       {:islands_client_state, "~> 0.1"},
       {:islands_client_random_guess, "~> 0.1"},
       {:phoenix, "~> 1.3.4"},

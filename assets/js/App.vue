@@ -57,7 +57,6 @@ export default {
   methods: {
     ...mapActions([
       'pushMessage',
-      'setBoardScore',
       'setChannel',
       'setDirective',
       'setError',
@@ -65,14 +64,15 @@ export default {
       'setGameUrl',
       'setGuessesHits',
       'setGuessesMisses',
-      'setGuessesScore',
       'setHits',
       'setMisses',
       'setPlayerId',
       'setPlayers',
+      'setPlayerState',
       'setPosition',
       'setPositions',
-      'setResponse'
+      'setResponse',
+      'setScore'
     ]),
     joinChannel(authToken, gameName, gameUrl, playerId) {
       const socket = new Socket('/socket', { params: { token: authToken } })
@@ -82,11 +82,12 @@ export default {
       channel.on('island_misses', misses => this.setMisses(misses))
       channel.on('guesses_hits', hits => this.setGuessesHits(hits))
       channel.on('guesses_misses', misses => this.setGuessesMisses(misses))
-      channel.on('new_chat_message', message => this.pushMessage(message))
+      channel.on('chat_message', message => this.pushMessage(message))
       channel.on('response', response => this.setResponse(response))
       channel.on('directive', directive => this.setDirective(directive))
       channel.on('error', error => this.setError(error))
       channel.on('game_state', state => this.setGameState(state))
+      channel.on('player_state', state => this.setPlayerState(state))
       let presences = {}
 
       channel.on('island_positions', positions => {
@@ -108,12 +109,12 @@ export default {
       })
 
       channel.on('board_score', score => {
-        this.setBoardScore(score) // Must precede setPlayers.
+        this.setScore({ scoreId: 'board', score }) // must precede setPlayers
         this.setPlayers(presences)
       })
 
       channel.on('guesses_score', score => {
-        this.setGuessesScore(score) // Must precede setPlayers.
+        this.setScore({ scoreId: 'guesses', score }) // must precede setPlayers
         this.setPlayers(presences)
       })
 
@@ -133,6 +134,8 @@ export default {
   created() {
     const joinChannelData = document.querySelector('#join-channel-data')
     const { authToken, gameName, gameUrl, playerId } = joinChannelData.dataset
+    document.title = gameName
+    joinChannelData.remove()
     this.joinChannel(authToken, gameName, gameUrl, playerId)
   }
 }
@@ -140,7 +143,6 @@ export default {
 
 <style scoped>
 .grid {
-  border: 1px red solid;
   display: grid;
   width: 96vw;
   margin: 15px auto;
@@ -152,19 +154,15 @@ export default {
 }
 .left {
   grid-column: 1 / span 5;
-  /* align-self: stretch; */
 }
 .center {
   grid-column: 6 / span 5;
-  /* align-self: stretch; */
 }
 .right {
   grid-column: 11 / span 2;
-  /* align-self: stretch; */
 }
 .score {
   grid-row: 1 / span 2;
-  /* justify-self: stretch; */
 }
 .box {
   grid-row: 3 / span 5;
@@ -174,15 +172,12 @@ export default {
 }
 .players {
   grid-row: 1 / span 2;
-  /* align-self: start; */
 }
 .messages {
   grid-row: 3 / span 5;
-  /* align-self: stretch; */
 }
 .chat-form {
   grid-row: 8 / span 1;
-  /* align-self: center; */
 }
 </style>
 
@@ -200,16 +195,11 @@ export default {
 }
 .hit {
   background: ForestGreen;
+  animation: blinker 0.1s linear 1;
 }
 .miss {
   background: DodgerBlue;
-}
-
-/* Draggable element classes
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.hold {
-  border: 2px dashed blue;
+  animation: blinker 0.1s linear 1;
 }
 .visible {
   visibility: visible;
@@ -219,5 +209,14 @@ export default {
 }
 .draggable {
   cursor: move;
+}
+.freeze-events {
+  pointer-events: none;
+}
+.freeze-cursor {
+  cursor: not-allowed;
+}
+@keyframes blinker {
+  50% { opacity: 0; }
 }
 </style>

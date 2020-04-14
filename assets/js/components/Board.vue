@@ -42,17 +42,13 @@ export default {
   box-sizing: content-box;
   margin: 0 0;
   position: relative;
-  /* width: 100%; */
-  /* width: calc(50px * 10 + 9px);
-  height: calc(50px * 10 + 9px); */
   width: calc(3vw * 10 + 9px);
   height: calc(3vw * 10 + 9px);
   display: grid;
   grid-template: repeat(10, 1fr) / repeat(10, 1fr);
-  /* grid-template: repeat(10, 1fr) / repeat(10, calc(100% / 10)); */
   grid-gap: 1px;
-  border: 1px solid white;
-  background: white;
+  border: 1px solid White;
+  background: White;
 }
 .square {
   background: SkyBlue;
@@ -60,22 +56,4 @@ export default {
 .miss {
   background: DodgerBlue;
 }
-/* @media screen and (max-width: 1350px) {
-  #board {
-    width: calc(40px * 10 + 9px);
-    height: calc(40px * 10 + 9px);
-  }
-}
-@media screen and (max-width: 1100px) {
-  #board {
-    width: calc(30px * 10 + 9px);
-    height: calc(30px * 10 + 9px);
-  }
-}
-@media screen and (max-width: 850px) {
-  #board {
-    width: calc(20px * 10 + 9px);
-    height: calc(20px * 10 + 9px);
-  }
-} */
 </style>

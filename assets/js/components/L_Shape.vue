@@ -1,14 +1,15 @@
 <template>
   <div id="l_shape"
-       draggable="true" @dragstart="dragStart" @dragend="dragEnd"
+       :draggable="areIslandsDraggable"
+       @dragstart="dragStart" @dragend="dragEnd"
        @dragenter="dragEnter" @dragover="dragOver" @dragleave="dragLeave"
        :class="getVisibility('l_shape')" :style="getPosition('l_shape')">
-    <div class="a1 draggable square" :class="getHit('l_shape', 'a1')"/>
-    <div class="a2 draggable square" :class="getHit('l_shape', 'a2')"/>
+    <div class="a1 square" :class="[getHit('l_shape', 'a1'), getDraggable]"/>
+    <div class="a2 square" :class="[getHit('l_shape', 'a2'), getDraggable]"/>
     <div class="b1" draggable="true" @dragstart="dragHalt" @drop="drop"/>
     <div class="b2" draggable="true" @dragstart="dragHalt" @drop="drop"/>
-    <div class="a3 draggable square" :class="getHit('l_shape', 'a3')"/>
-    <div class="b3 draggable square" :class="getHit('l_shape', 'b3')"/>
+    <div class="a3 square" :class="[getHit('l_shape', 'a3'), getDraggable]"/>
+    <div class="b3 square" :class="[getHit('l_shape', 'b3'), getDraggable]"/>
   </div>
 </template>
 
@@ -20,7 +21,13 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'L_Shape',
   mixins: [listener, islandListener],
-  computed: mapGetters(['getPosition', 'getHit', 'getVisibility'])
+  computed: mapGetters([
+    'areIslandsDraggable',
+    'getDraggable',
+    'getHit',
+    'getPosition',
+    'getVisibility'
+  ])
 }
 </script>
 
@@ -46,7 +53,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.a1.dragged {
+.a1.dragging {
   border-left: 1px solid White;
   border-top: 1px solid White;
   border-right: 1px solid White;
@@ -61,7 +68,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.a2.dragged {
+.a2.dragging {
   border-right: 1px solid White;
   border-left: 1px solid White;
 }
@@ -75,7 +82,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.a3.dragged {
+.a3.dragging {
   border-bottom: 1px solid White;
   border-left: 1px solid White;
 }
@@ -84,7 +91,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.b3.dragged {
+.b3.dragging {
   border-top: 1px solid White;
   border-right: 1px solid White;
   border-bottom: 1px solid White;

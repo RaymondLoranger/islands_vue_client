@@ -1,12 +1,13 @@
 <template>
   <div id="square"
-       draggable="true" @dragstart="dragStart" @dragend="dragEnd"
+       :draggable="areIslandsDraggable"
+       @dragstart="dragStart" @dragend="dragEnd"
        @dragenter="dragEnter" @dragover="dragOver" @dragleave="dragLeave"
        :class="getVisibility('square')" :style="getPosition('square')">
-    <div class="a1 draggable square" :class="getHit('square', 'a1')"/>
-    <div class="b1 draggable square" :class="getHit('square', 'b1')"/>
-    <div class="a2 draggable square" :class="getHit('square', 'a2')"/>
-    <div class="b2 draggable square" :class="getHit('square', 'b2')"/>
+    <div class="a1 square" :class="[getHit('square', 'a1'), getDraggable]"/>
+    <div class="b1 square" :class="[getHit('square', 'b1'), getDraggable]"/>
+    <div class="a2 square" :class="[getHit('square', 'a2'), getDraggable]"/>
+    <div class="b2 square" :class="[getHit('square', 'b2'), getDraggable]"/>
   </div>
 </template>
 
@@ -18,7 +19,13 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Square',
   mixins: [listener, islandListener],
-  computed: mapGetters(['getPosition', 'getHit', 'getVisibility'])
+  computed: mapGetters([
+    'areIslandsDraggable',
+    'getDraggable',
+    'getHit',
+    'getPosition',
+    'getVisibility'
+  ])
 }
 </script>
 
@@ -43,7 +50,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.a1.dragged {
+.a1.dragging {
   border-left: 1px solid White;
   border-top: 1px solid White;
 }
@@ -52,7 +59,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.b1.dragged {
+.b1.dragging {
   border-top: 1px solid White;
   border-right: 1px solid White;
 }
@@ -61,7 +68,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.a2.dragged {
+.a2.dragging {
   border-bottom: 1px solid White;
   border-left: 1px solid White;
 }
@@ -70,7 +77,7 @@ export default {
   position: relative;
   z-index: 1;
 }
-.b2.dragged {
+.b2.dragging {
   border-right: 1px solid White;
   border-bottom: 1px solid White;
 }

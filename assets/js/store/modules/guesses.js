@@ -5,8 +5,8 @@ const state = {
 
 const getters = {
   getGuess: state => square =>
-    state.hits.squares.includes(square) ?
-      'hit' : state.misses.squares.includes(square) ? 'miss' : ''
+    state.hits.squares.includes(square) ? 'hit' :
+    state.misses.squares.includes(square) ? 'miss' : ''
 }
 
 const actions = {

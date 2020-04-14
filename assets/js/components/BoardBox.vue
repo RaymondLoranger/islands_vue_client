@@ -1,8 +1,5 @@
 <template>
   <div class="board-box">
-    <!-- <section class="across">
-      <Player/>
-    </section> -->
     <section class="across">
       <Corner/>
       <TagsAcross/>
@@ -26,7 +23,6 @@ import Corner from './Corner.vue'
 import TagsAcross from './TagsAcross.vue'
 import TagsDown from './TagsDown.vue'
 import Board from './Board.vue'
-import Player from './Player.vue'
 
 export default {
   name: 'BoardBox',
@@ -34,8 +30,7 @@ export default {
     Corner,
     TagsAcross,
     TagsDown,
-    Board,
-    Player
+    Board
   }
 }
 </script>

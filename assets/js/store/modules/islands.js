@@ -20,14 +20,14 @@ const state = {
     s_shape: [], // s_shape: ['b1']
     square: []   // square: ['a1']
   },
-  misses: {squares: []} // misses: {squares: [2, 43, 84]}
+  misses: { squares: [] } // misses: {squares: [2, 43, 84]}
 }
 
 const getters = {
   getPosition: state => islandId => state.positions[islandId],
   getDimension: state => islandId => state.dimensions[islandId],
-  getHit: state => (islandId, square) =>
-    state.hits[islandId].includes(square) ? 'hit' : '',
+  getHit: state => (islandId, cell) =>
+    state.hits[islandId].includes(cell) ? 'hit' : '',
   getMiss: state => square =>
     state.misses.squares.includes(square) ? 'miss' : '',
   getVisibility: state => islandId =>

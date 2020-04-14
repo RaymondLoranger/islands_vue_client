@@ -2,16 +2,27 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
   alias Islands.Vue.ClientWeb.Presence
   alias Phoenix.{Channel, Socket}
 
-  @spec push(atom, Socket.t(), tuple | map) :: :ok
+  @spec push(msg_or_event :: atom, Socket.t(), tuple | map) :: :ok
   def push(:game_state, socket, {game_state}) do
-    :ok = Channel.push(socket, "game_state", %{game_state: game_state})
+    :ok = Channel.push(socket, "game_state", %{gameState: game_state})
+  end
+
+  def push(:player_state, socket, {player_id, tally}) do
+    player_state =
+      case player_id do
+        :player1 -> tally.player1_state
+        :player2 -> tally.player2_state
+      end
+
+    :ok = Channel.push(socket, "player_state", %{playerState: player_state})
   end
 
   def push(:error, socket, {reason}) do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Error occurred. Reason ➜ #{inspect(reason)}.
+        Error occurred. Reason ➔
+        <span style="color:DeepPink;">#{inspect(reason)}</span>.
         """
       })
   end
@@ -29,7 +40,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Cannot position #{String.upcase(island_id)} at (#{row}, #{col}) ➜
+        Cannot position #{String.upcase(island_id)} at (#{row}, #{col}) ➔
         island overlap.
         """
       })
@@ -39,7 +50,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Cannot position #{String.upcase(island_id)} at (#{row}, #{col}) ➜
+        Cannot position #{String.upcase(island_id)} at (#{row}, #{col}) ➔
         invalid coordinates.
         """
       })
@@ -49,7 +60,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Cannot position #{String.upcase(island_id)} at (#{row}, #{col}) ➜
+        Cannot position #{String.upcase(island_id)} at (#{row}, #{col}) ➔
         invalid location.
         """
       })
@@ -59,7 +70,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        NOT your turn to make a guess!
+        NOT your turn to play!
         """
       })
   end
@@ -77,7 +88,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Islands ALREADY set for for both players.
+        Islands ALREADY set for both players.
         """
       })
   end
@@ -86,16 +97,25 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Islands NOT YET set for for both players.
+        Islands NOT YET set for both players.
         """
       })
   end
 
-  def push(:game_over, socket, {}) do
+  def push(:game_over, socket, {game_name}) do
     :ok =
       Channel.push(socket, "error", %{
         reason: """
-        Game is over!
+        Game <span style="color:DeepPink;">#{game_name}</span> is over!
+        """
+      })
+  end
+
+  def push(:game_not_found, socket, {game_name}) do
+    :ok =
+      Channel.push(socket, "error", %{
+        reason: """
+        Game <span style="color:DeepPink;">#{game_name}</span> not found!
         """
       })
   end
@@ -168,7 +188,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Your guess (#{row}, #{col}) ➜ miss.
+        Your guess (#{row}, #{col}) ➔ miss.
         """
       })
   end
@@ -177,7 +197,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Opponent's guess (#{row}, #{col}) ➜ miss.
+        Opponent's guess (#{row}, #{col}) ➔ miss.
         """
       })
   end
@@ -186,7 +206,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Opponent's guess (#{row}, #{col}) ➜ hit.
+        Opponent's guess (#{row}, #{col}) ➔ hit.
         """
       })
   end
@@ -195,7 +215,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Opponent's guess (#{row}, #{col}) ➜
+        Opponent's guess (#{row}, #{col}) ➔
         #{island_type |> Atom.to_string() |> String.upcase()} forested.
         """
       })
@@ -205,7 +225,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Your guess (#{row}, #{col}) ➜ hit.
+        Your guess (#{row}, #{col}) ➔ hit.
         """
       })
   end
@@ -214,8 +234,26 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Your guess (#{row}, #{col}) ➜
+        Your guess (#{row}, #{col}) ➔
         #{island_type |> Atom.to_string() |> String.upcase()} forested.
+        """
+      })
+  end
+
+  def push(:opponent_stopped, socket, {player_name}) do
+    :ok =
+      Channel.push(socket, "error", %{
+        reason: """
+        #{player_name}, your opponent stopped the game.
+        """
+      })
+  end
+
+  def push(:you_stopped, socket, {player_name}) do
+    :ok =
+      Channel.push(socket, "error", %{
+        reason: """
+        #{player_name}, you stopped the game.
         """
       })
   end
@@ -242,7 +280,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "directive", %{
         text: """
-        #{player_name}, you may hit 'New Game' if you wish.
+        #{player_name}, to start a new game, hit 'New Game'.
         """
       })
   end
@@ -257,20 +295,20 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
       })
   end
 
-  def push(:wait_for_make_guess, socket, {player_name}) do
+  def push(:wait_for_make_move, socket, {player_name}) do
     :ok =
       Channel.push(socket, "directive", %{
         text: """
-        #{player_name}, please wait for your opponent to make a guess...
+        #{player_name}, please wait for your opponent to make a move...
         """
       })
   end
 
-  def push(:please_make_guess, socket, {player_name}) do
+  def push(:please_make_move, socket, {player_name}) do
     :ok =
       Channel.push(socket, "directive", %{
         text: """
-        #{player_name}, please make a guess...
+        #{player_name}, please make a move...
         """
       })
   end
@@ -327,6 +365,45 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
 
   def push(:guesses_misses, socket, misses) do
     :ok = Channel.push(socket, "guesses_misses", misses)
+  end
+
+  def push(:unexpected_message, socket, {msg}) do
+    :ok =
+      Channel.push(socket, "response", %{
+        text: """
+        Unexpected message <span style="color:DeepPink;">#{inspect(msg)}</span>.
+        """
+      })
+  end
+
+  def push(:unexpected_event, socket, {event, payload}) do
+    :ok =
+      Channel.push(socket, "response", %{
+        text: """
+        Unexpected event <span style="color:DeepPink;">#{inspect(event)}</span>
+        with payload <span style="color:DeepPink;">#{inspect(payload)}</span>.
+        """
+      })
+  end
+
+  def push(msg, socket, args) when is_tuple(args) do
+    :ok =
+      Channel.push(socket, "response", %{
+        text: """
+        Unknown message <span style="color:DeepPink;">#{inspect(msg)}</span>
+        with arguments <span style="color:DeepPink;">#{inspect(args)}</span>.
+        """
+      })
+  end
+
+  def push(event, socket, payload) when is_map(payload) do
+    :ok =
+      Channel.push(socket, "response", %{
+        text: """
+        Unknown event <span style="color:DeepPink;">#{inspect(event)}</span>
+        with payload <span style="color:DeepPink;">#{inspect(payload)}</span>.
+        """
+      })
   end
 
   ## Private functions

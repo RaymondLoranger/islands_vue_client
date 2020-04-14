@@ -1,11 +1,9 @@
 <template>
-  <div id="guesses" :class="freezeCursor">
+  <div id="guesses" :class="getFreezeCursor">
     <div class="square"
-         :class="[getGuess(square), freezeEvents]"
+         :class="[getGuess(square), getFreezeEvents]"
          v-for="square in 100" :key="square"
-         @click="hit(square)"
-         @mouseleave="mouseLeave(square, $event)"
-         @mouseover="mouseOver(square, $event)"/>
+         @click="hit(square)"/>
   </div>
 </template>
 
@@ -14,33 +12,16 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Guesses',
-  computed: {
-    ...mapGetters(['getGuess', 'getChannel', 'getFreeze']),
-    freezeEvents() {
-      return this.getFreeze ? 'freezeEvents' : ''
-    },
-    freezeCursor() {
-      return this.getFreeze ? 'freezeCursor' : ''
-    },
-  },
+  computed: mapGetters([
+    'getChannel',
+    'getFreezeCursor',
+    'getFreezeEvents',
+    'getGuess'
+  ]),
   methods: {
     hit(square) {
       if (this.getGuess(square) === '') {
         this.getChannel.push('guess_coord', { square })
-      }
-    },
-    mouseOver(square, e) {
-      if (!e.target.classList.contains('not-allowed')) {
-        if (this.getGuess(square) !== '') {
-          e.target.classList.add('not-allowed')
-        }
-      }
-    },
-    mouseLeave(square, e) {
-      if (!e.target.classList.contains('not-allowed')) {
-        if (this.getGuess(square) !== '') {
-          e.target.classList.add('not-allowed')
-        }
       }
     }
   }
@@ -49,7 +30,6 @@ export default {
 
 <style scoped>
 #guesses {
-  /* pointer-events: none; */
   box-sizing: content-box;
   margin: 0 0;
   position: relative;
@@ -58,38 +38,22 @@ export default {
   display: grid;
   grid-template: repeat(10, 1fr) / repeat(10, 1fr);
   grid-gap: 1px;
-  border: 1px solid white;
-  background: white;
+  border: 1px solid White;
+  background: White;
 }
 .square {
   background: SkyBlue;
 }
 .square:hover {
   background: PowderBlue;
-  /* background: LightBlue; */
   cursor: pointer;
-}
-.square.not-allowed:hover {
-  cursor: not-allowed;
 }
 .square.hit {
   background: ForestGreen;
-  cursor: default;
+  cursor: not-allowed;
 }
-/* .square.hit:hover {
-  cursor: default;
-} */
 .square.miss {
   background: DodgerBlue;
-  cursor: default;
-}
-/* .square.miss:hover {
-  cursor: default;
-} */
-.freezeEvents {
-  pointer-events: none;
-}
-.freezeCursor {
   cursor: not-allowed;
 }
 </style>

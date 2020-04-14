@@ -1,11 +1,10 @@
 <template>
   <div class="game-url" :class="getGameUrlVisibility">
     <div class="input-group">
-      <input id="game-url" class="form-control"
-              :value="getGameUrl" readonly>
+      <input id="game-url" ref="gameUrl" class="form-control"
+             :value="getGameUrl" readonly>
       <div class="input-group-btn">
-        <button id="copy-game-url" class="btn btn-primary"
-                data-clipboard-target="#game-url">
+        <button id="copy-game-url" class="btn btn-primary" @click="copyGameUrl">
           <i class="fa fa-paste"></i>
         </button>
       </div>
@@ -18,10 +17,20 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'GameUrl',
-  computed: {
-    ...mapGetters(['getGameState', 'getGameUrl']),
-    getGameUrlVisibility() {
-      return this.getGameState === 'initialized' ? 'visible' : 'hidden'
+  computed: mapGetters(['getGameUrl', 'getGameUrlVisibility']),
+  methods: {
+    copyGameUrl() {
+      navigator.clipboard.writeText(this.getGameUrl).then(
+        _ => console.log('Copy to clipboard succeeded'),
+        error => console.error('Copy to clipboard failed:', error)
+      )
+      this.$refs.gameUrl.focus()
+      this.$refs.gameUrl.select()
+    }
+  },
+  updated() {
+    if (this.getGameUrlVisibility === 'visible') {
+      this.copyGameUrl()
     }
   }
 }
