@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="The Game of Islands">
+    <meta name="author" content="Raymond Loranger">
     <title>The Game of Islands</title>
     <link href="//fonts.googleapis.com/css?family=Raleway:300,400,600,800" rel="stylesheet" type="text/css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <div class="container">
+    <div class="main">
       <header>
         <nav>
           <ul class="nav nav-pills pull-right">
@@ -67,7 +67,7 @@
            target="_blank">Raymond Loranger</a>
       </footer>
 
-    </div> <!-- /container -->
+    </div> <!-- class="main" -->
     <div hidden> <!-- preloading images -->
       <img src="/images/no-entry-sign.png">
       <img src="/images/question-mark.png">

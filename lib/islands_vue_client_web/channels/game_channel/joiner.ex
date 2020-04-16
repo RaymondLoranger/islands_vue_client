@@ -22,7 +22,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Joiner do
         {:ok, socket}
 
       _error ->
-        {:error, reason(:cannot_start, game_name)}
+        {:error, reason(:cannot_start, {game_name})}
     end
   end
 
@@ -44,17 +44,20 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Joiner do
         {:ok, socket}
 
       %Tally{response: {:error, :player2_already_added}} ->
-        {:error, reason(:cannot_join, game_name)}
+        {:error, reason(:cannot_join, {game_name})}
+
+      %Tally{response: {:error, :duplicate_player_name}} ->
+        {:error, reason(:name_taken, {game_name, player_name})}
 
       _error ->
-        {:error, reason(:game_not_found, game_name)}
+        {:error, reason(:game_not_found, {game_name})}
     end
   end
 
   # Private functions
 
-  @spec reason(atom, String.t()) :: map
-  defp reason(:cannot_start, game_name) do
+  @spec reason(atom, tuple) :: map
+  defp reason(:cannot_start, {game_name}) do
     %{
       reason: """
       Cannot start game <span style="color:DeepPink;">#{game_name}</span>.
@@ -62,7 +65,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Joiner do
     }
   end
 
-  defp reason(:cannot_join, game_name) do
+  defp reason(:cannot_join, {game_name}) do
     %{
       reason: """
       Cannot join game <span style="color:DeepPink;">#{game_name}</span>.
@@ -70,10 +73,21 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Joiner do
     }
   end
 
-  defp reason(:game_not_found, game_name) do
+  defp reason(:game_not_found, {game_name}) do
     %{
       reason: """
       Game <span style="color:DeepPink;">#{game_name}</span> not found!
+      """
+    }
+  end
+
+  defp reason(:name_taken, {game_name, player_name}) do
+    %{
+      reason: """
+      <span class="alert-success">Please refresh the page and
+      specify a different name to avoid confusion.</span><br>
+      Name <span style="color:DeepPink;">#{player_name}</span>
+      already taken in game <span style="color:DeepPink;">#{game_name}</span>.
       """
     }
   end
