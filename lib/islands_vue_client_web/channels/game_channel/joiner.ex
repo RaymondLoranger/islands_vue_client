@@ -60,7 +60,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Joiner do
   defp reason(:cannot_start, {game_name}) do
     %{
       reason: """
-      Cannot start game <span style="color:DeepPink;">#{game_name}</span>.
+      Cannot start game <span class="striking">#{game_name}</span>.
       """
     }
   end
@@ -68,7 +68,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Joiner do
   defp reason(:cannot_join, {game_name}) do
     %{
       reason: """
-      Cannot join game <span style="color:DeepPink;">#{game_name}</span>.
+      Cannot join game <span class="striking">#{game_name}</span>.
       """
     }
   end
@@ -76,7 +76,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Joiner do
   defp reason(:game_not_found, {game_name}) do
     %{
       reason: """
-      Game <span style="color:DeepPink;">#{game_name}</span> not found!
+      Game <span class="striking">#{game_name}</span> not found!
       """
     }
   end
@@ -86,8 +86,8 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Joiner do
       reason: """
       <span class="alert-success">Please refresh the page and
       specify a different name to avoid confusion.</span><br>
-      Name <span style="color:DeepPink;">#{player_name}</span>
-      already taken in game <span style="color:DeepPink;">#{game_name}</span>.
+      Name <span class="striking">#{player_name}</span>
+      already taken in game <span class="striking">#{game_name}</span>.
       """
     }
   end

@@ -3,7 +3,10 @@ defmodule Islands.Vue.ClientWeb.GameChannel.GameOver do
 
   alias Islands.Client.State
   alias Islands.{Board, Engine, Tally}
+  alias Islands.Vue.ClientWeb.GameChannel.GameEnder
   alias Phoenix.Socket
+
+  require Logger
 
   @spec handle_info(Socket.t()) :: {:noreply, Socket.t()}
   def handle_info(
@@ -34,7 +37,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.GameOver do
             push(:opponent_stopped, socket, {player_name})
         end
 
-        Engine.end_game(game_name)
+        GameEnder.end_game(game_name)
 
       _error ->
         push(:game_not_found, socket, {game_name})

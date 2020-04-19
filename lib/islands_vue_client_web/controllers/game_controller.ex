@@ -15,7 +15,7 @@ defmodule Islands.Vue.ClientWeb.GameController do
     %Player{name: name, gender: gender} = get_session(conn, :player)
 
     conn
-    |> put_session(:player, nil)
+    |> delete_session(:player)
     |> show(State.new(game_name, :player1, name, gender, basic: true))
   end
 
@@ -23,7 +23,7 @@ defmodule Islands.Vue.ClientWeb.GameController do
     %Player{name: name, gender: gender} = get_session(conn, :player)
 
     conn
-    |> put_session(:player, nil)
+    |> delete_session(:player)
     |> show(State.new(game_name, :player2, name, gender, basic: true))
   end
 

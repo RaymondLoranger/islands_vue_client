@@ -15,12 +15,6 @@ defmodule Islands.Vue.ClientWeb.SessionController do
     |> redirect_back_or_to_new_game
   end
 
-  def delete(conn, _) do
-    conn
-    |> delete_session(:player)
-    |> redirect(to: "/")
-  end
-
   ## Private functions
 
   defp redirect_back_or_to_new_game(conn) do
@@ -28,7 +22,7 @@ defmodule Islands.Vue.ClientWeb.SessionController do
     path = get_session(conn, :return_to) || game_path(conn, :new)
 
     conn
-    |> put_session(:return_to, nil)
+    |> delete_session(:return_to)
     |> redirect(to: path)
   end
 end

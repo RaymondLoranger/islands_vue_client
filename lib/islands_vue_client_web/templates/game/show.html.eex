@@ -6,14 +6,3 @@
 </details>
 
 <div id="mounting-point"></div>
-
-<!--
-<div class="row">
-  <div class="col-xs-8">
-    <div class="form-group">
-      <%= button "New Game", to: game_path(@conn, :new),
-                 method: :get, class: "btn btn-primary" %>
-    </div>
-  </div>
-</div>
--->

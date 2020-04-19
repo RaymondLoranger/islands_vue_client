@@ -7,6 +7,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
     GameOver,
     GuessCoord,
     Joiner,
+    OpponentLeft,
     PlayerTurn,
     PlayersSet,
     PositionIsland,
@@ -15,6 +16,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
     SetIslands,
     StopGame,
     SwitchMode,
+    Terminator,
     Unexpected
   }
 
@@ -63,9 +65,15 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
   def handle_in("stop_game", %{} = payload, %Socket{} = socket),
     do: StopGame.handle_in(payload, socket)
 
+  def handle_in("opponent_left", %{} = payload, %Socket{} = socket),
+    do: OpponentLeft.handle_in(payload, socket)
+
   def handle_in("chat_message", %{} = payload, %Socket{} = socket),
     do: ChatMessage.handle_in(payload, socket)
 
   def handle_in(event, %{} = payload, %Socket{} = socket),
     do: Unexpected.handle_in(event, payload, socket)
+
+  @spec terminate(term, Socket.t()) :: :ok
+  def terminate(reason, socket), do: Terminator.terminate(reason, socket)
 end

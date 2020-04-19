@@ -18,8 +18,8 @@
         <nav>
           <ul class="nav nav-pills pull-right">
             <li>
-              <%= link "Switch Player",
-                       method: :delete, to: session_path(@conn, :delete) %>
+              <%= link "New Game",
+                       method: :get, to: game_path(@conn, :new) %>
             </li>
           </ul>
         </nav>

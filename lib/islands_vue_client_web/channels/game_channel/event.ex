@@ -22,7 +22,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
       Channel.push(socket, "response", %{
         text: """
         Error occurred. Reason ➔
-        <span style="color:DeepPink;">#{inspect(reason)}</span>.
+        <span class="striking">#{inspect(reason)}</span>.
         """
       })
   end
@@ -106,7 +106,16 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "error", %{
         reason: """
-        Game <span style="color:DeepPink;">#{game_name}</span> is over!
+        Game <span class="striking">#{game_name}</span> is over!
+        """
+      })
+  end
+
+  def push(:game_ended, socket, {game_name}) do
+    :ok =
+      Channel.push(socket, "error", %{
+        reason: """
+        Game <span class="striking">#{game_name}</span> has ended.
         """
       })
   end
@@ -115,7 +124,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "error", %{
         reason: """
-        Game <span style="color:DeepPink;">#{game_name}</span> not found!
+        Game <span class="striking">#{game_name}</span> not found!
         """
       })
   end
@@ -236,6 +245,15 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
         text: """
         Your guess (#{row}, #{col}) ➔
         #{island_type |> Atom.to_string() |> String.upcase()} forested.
+        """
+      })
+  end
+
+  def push(:opponent_left, socket, {player_name}) do
+    :ok =
+      Channel.push(socket, "response", %{
+        text: """
+        #{player_name}, your opponent has left the game.
         """
       })
   end
@@ -371,7 +389,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Unexpected message <span style="color:DeepPink;">#{inspect(msg)}</span>.
+        Unexpected message <span class="striking">#{inspect(msg)}</span>.
         """
       })
   end
@@ -380,8 +398,8 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Unexpected event <span style="color:DeepPink;">#{inspect(event)}</span>
-        with payload <span style="color:DeepPink;">#{inspect(payload)}</span>.
+        Unexpected event <span class="striking">#{inspect(event)}</span>
+        with payload <span class="striking">#{inspect(payload)}</span>.
         """
       })
   end
@@ -390,8 +408,8 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Unknown message <span style="color:DeepPink;">#{inspect(msg)}</span>
-        with arguments <span style="color:DeepPink;">#{inspect(args)}</span>.
+        Unknown message <span class="striking">#{inspect(msg)}</span>
+        with arguments <span class="striking">#{inspect(args)}</span>.
         """
       })
   end
@@ -400,8 +418,8 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Unknown event <span style="color:DeepPink;">#{inspect(event)}</span>
-        with payload <span style="color:DeepPink;">#{inspect(payload)}</span>.
+        Unknown event <span class="striking">#{inspect(event)}</span>
+        with payload <span class="striking">#{inspect(payload)}</span>.
         """
       })
   end

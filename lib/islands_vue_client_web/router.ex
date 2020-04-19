@@ -22,9 +22,9 @@ defmodule Islands.Vue.ClientWeb.Router do
     get "/games/:id", GameController, :join
     # resources "/games", GameController, only: [:new, :create, :show]
 
-    resources "/sessions", SessionController,
-      only: [:new, :create, :delete],
-      singleton: true
+    get "/sessions/new", SessionController, :new
+    post "/sessions", SessionController, :create
+    # resources "/sessions", SessionController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.

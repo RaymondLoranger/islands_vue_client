@@ -4,7 +4,7 @@ defmodule Islands.Vue.Client.Mixfile do
   def project do
     [
       app: :islands_vue_client,
-      version: "0.0.6",
+      version: "0.0.7",
       elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
