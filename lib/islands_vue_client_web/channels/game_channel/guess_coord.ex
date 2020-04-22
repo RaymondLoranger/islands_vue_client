@@ -1,5 +1,5 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.GuessCoord do
-  import Islands.Vue.ClientWeb.GameChannel.Event, only: [push: 3]
+  import Islands.Vue.ClientWeb.GameChannel.Event
 
   alias Islands.Client.State
   alias Islands.{Coord, Engine, Guesses, Tally}
@@ -56,14 +56,14 @@ defmodule Islands.Vue.ClientWeb.GameChannel.GuessCoord do
             push(:not_your_turn, socket, {})
 
           {:error, :game_over} ->
-            push(:game_over, socket, {game_name})
+            broadcast!(:game_over, socket, {game_name})
 
           {:error, reason} ->
             push(:error, socket, {reason})
         end
 
       _error ->
-        push(:game_not_found, socket, {game_name})
+        broadcast!(:game_not_found, socket, {game_name})
     end
 
     {:noreply, socket}

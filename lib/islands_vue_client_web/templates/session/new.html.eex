@@ -19,7 +19,7 @@
           </label>
         </div>
       </div>
-      <%= submit "Play Islands!", class: "btn btn-primary" %>
+      <%= submit "Play Islands!", class: "btn btn-primary game-btn" %>
     <% end %>
   </div>
 </div>

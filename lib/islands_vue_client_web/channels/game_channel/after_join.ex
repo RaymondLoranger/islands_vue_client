@@ -1,5 +1,5 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.AfterJoin do
-  import Islands.Vue.ClientWeb.GameChannel.Event, only: [push: 3]
+  import Islands.Vue.ClientWeb.GameChannel.Event
 
   alias Islands.Client.State
   alias Islands.{Board, Engine, Tally}
@@ -30,7 +30,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.AfterJoin do
         push(:presence_diff, socket, {:player1, player_name, gender})
 
       _error ->
-        push(:game_not_found, socket, {game_name})
+        {:error, reason(:game_crashed, {game_name})}
     end
 
     {:noreply, socket}
@@ -61,9 +61,20 @@ defmodule Islands.Vue.ClientWeb.GameChannel.AfterJoin do
         push(:presence_diff, socket, {:player2, player_name, gender})
 
       _error ->
-        push(:game_not_found, socket, {game_name})
+        {:error, reason(:game_crashed, {game_name})}
     end
 
     {:noreply, socket}
+  end
+
+  # Private functions
+
+  @spec reason(atom, tuple) :: map
+  defp reason(:game_crashed, {game_name}) do
+    %{
+      reason: """
+      Game <span class="distinct">#{game_name}</span> crashed!
+      """
+    }
   end
 end

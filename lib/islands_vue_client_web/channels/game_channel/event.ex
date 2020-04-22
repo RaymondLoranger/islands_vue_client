@@ -2,7 +2,30 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
   alias Islands.Vue.ClientWeb.Presence
   alias Phoenix.{Channel, Socket}
 
-  @spec push(msg_or_event :: atom, Socket.t(), tuple | map) :: :ok
+  @spec broadcast!(atom, Socket.t(), tuple) :: :ok
+  def broadcast!(:game_over, socket, {game_name}) do
+    :ok =
+      Channel.broadcast!(socket, "error", %{
+        reason: """
+        Game <span class="distinct">#{game_name}</span> is over!
+        """
+      })
+
+    :ok = Channel.broadcast!(socket, "game_state", %{gameState: :game_over})
+  end
+
+  def broadcast!(:game_not_found, socket, {game_name}) do
+    :ok =
+      Channel.broadcast!(socket, "error", %{
+        reason: """
+        Game <span class="distinct">#{game_name}</span> not found!
+        """
+      })
+
+    :ok = Channel.broadcast!(socket, "game_state", %{gameState: :game_over})
+  end
+
+  @spec push(atom, Socket.t(), tuple | map) :: :ok
   def push(:game_state, socket, {game_state}) do
     :ok = Channel.push(socket, "game_state", %{gameState: game_state})
   end
@@ -22,7 +45,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
       Channel.push(socket, "response", %{
         text: """
         Error occurred. Reason ➔
-        <span class="striking">#{inspect(reason)}</span>.
+        <span class="distinct">#{inspect(reason)}</span>.
         """
       })
   end
@@ -102,29 +125,11 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
       })
   end
 
-  def push(:game_over, socket, {game_name}) do
-    :ok =
-      Channel.push(socket, "error", %{
-        reason: """
-        Game <span class="striking">#{game_name}</span> is over!
-        """
-      })
-  end
-
   def push(:game_ended, socket, {game_name}) do
     :ok =
       Channel.push(socket, "error", %{
         reason: """
-        Game <span class="striking">#{game_name}</span> has ended.
-        """
-      })
-  end
-
-  def push(:game_not_found, socket, {game_name}) do
-    :ok =
-      Channel.push(socket, "error", %{
-        reason: """
-        Game <span class="striking">#{game_name}</span> not found!
+        Game <span class="distinct">#{game_name}</span> has ended.
         """
       })
   end
@@ -389,7 +394,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Unexpected message <span class="striking">#{inspect(msg)}</span>.
+        Unexpected message <span class="distinct">#{inspect(msg)}</span>.
         """
       })
   end
@@ -398,8 +403,8 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Unexpected event <span class="striking">#{inspect(event)}</span>
-        with payload <span class="striking">#{inspect(payload)}</span>.
+        Unexpected event <span class="distinct">#{inspect(event)}</span>
+        with payload <span class="distinct">#{inspect(payload)}</span>.
         """
       })
   end
@@ -408,8 +413,8 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Unknown message <span class="striking">#{inspect(msg)}</span>
-        with arguments <span class="striking">#{inspect(args)}</span>.
+        Unknown message <span class="distinct">#{inspect(msg)}</span>
+        with arguments <span class="distinct">#{inspect(args)}</span>.
         """
       })
   end
@@ -418,8 +423,8 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Event do
     :ok =
       Channel.push(socket, "response", %{
         text: """
-        Unknown event <span class="striking">#{inspect(event)}</span>
-        with payload <span class="striking">#{inspect(payload)}</span>.
+        Unknown event <span class="distinct">#{inspect(event)}</span>
+        with payload <span class="distinct">#{inspect(payload)}</span>.
         """
       })
   end

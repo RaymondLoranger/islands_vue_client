@@ -1,5 +1,5 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.RandomGuess do
-  import Islands.Vue.ClientWeb.GameChannel.Event, only: [push: 3]
+  import Islands.Vue.ClientWeb.GameChannel.Event
 
   alias Islands.Client.{RandomGuess, State}
   alias Islands.{Engine, Tally}
@@ -28,7 +28,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.RandomGuess do
         GuessCoord.handle_in(%{"square" => square}, socket)
 
       _error ->
-        push(:game_not_found, socket, {game_name})
+        broadcast!(:game_not_found, socket, {game_name})
         {:noreply, socket}
     end
   end

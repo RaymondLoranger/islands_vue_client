@@ -1,5 +1,5 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.SetIslands do
-  import Islands.Vue.ClientWeb.GameChannel.Event, only: [push: 3]
+  import Islands.Vue.ClientWeb.GameChannel.Event
 
   alias Islands.Client.State
   alias Islands.{Engine, Tally}
@@ -54,11 +54,11 @@ defmodule Islands.Vue.ClientWeb.GameChannel.SetIslands do
             push(:both_players_islands_set, socket, {})
 
           :game_over ->
-            push(:game_over, socket, {game_name})
+            broadcast!(:game_over, socket, {game_name})
         end
 
       _error ->
-        push(:game_not_found, socket, {game_name})
+        broadcast!(:game_not_found, socket, {game_name})
     end
 
     {:noreply, socket}

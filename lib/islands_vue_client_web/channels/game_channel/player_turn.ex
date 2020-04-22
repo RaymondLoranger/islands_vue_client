@@ -1,5 +1,5 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.PlayerTurn do
-  import Islands.Vue.ClientWeb.GameChannel.Event, only: [push: 3]
+  import Islands.Vue.ClientWeb.GameChannel.Event
 
   alias Islands.Client.State
   alias Islands.{Board, Engine, Tally}
@@ -53,7 +53,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.PlayerTurn do
         end
 
       _error ->
-        push(:game_not_found, socket, {game_name})
+        broadcast!(:game_not_found, socket, {game_name})
         {:noreply, socket}
     end
   end

@@ -42,8 +42,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel do
   def handle_info(msg, %Socket{} = socket),
     do: Unexpected.handle_info(msg, socket)
 
-  @spec handle_in(event :: String.t(), payload :: map, socket :: Socket.t()) ::
-          {:noreply, Socket.t()}
+  @spec handle_in(String.t(), map, Socket.t()) :: {:noreply, Socket.t()}
   def handle_in("random_positions", %{} = payload, %Socket{} = socket),
     do: RandomPositions.handle_in(payload, socket)
 

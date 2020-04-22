@@ -1,5 +1,5 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.RandomPositions do
-  import Islands.Vue.ClientWeb.GameChannel.Event, only: [push: 3]
+  import Islands.Vue.ClientWeb.GameChannel.Event
 
   alias Islands.Client.State
   alias Islands.{Board, Engine, Tally}
@@ -28,14 +28,14 @@ defmodule Islands.Vue.ClientWeb.GameChannel.RandomPositions do
             push(:islands_already_set, socket, {})
 
           {:error, :game_over} ->
-            push(:game_over, socket, {game_name})
+            broadcast!(:game_over, socket, {game_name})
 
           {:error, reason} ->
             push(:error, socket, {reason})
         end
 
       _error ->
-        push(:game_not_found, socket, {game_name})
+        broadcast!(:game_not_found, socket, {game_name})
     end
 
     {:noreply, socket}
