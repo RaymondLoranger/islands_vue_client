@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2 text-center">
+    <h1>Welcome!</h1>
+    <h4>First up, we need your name and gender:</h4>
+    <%= form_for @conn, Routes.session_path(@conn, :create), [as: :player],
+                 fn f -> %>
+      <div class="form-group">
+        <%= text_input f, :name, placeholder: "Name",
+                          autofocus: true, required: true %>
+        <div class="form-group">
+          <label class="radio-inline">
+            <%= radio_button f, :gender, "m", checked: true %>
+            <img src="<%= path(@conn, "/images/male-sign.png") %>"
+                 alt="Male" width="30">
+          </label>
+          <label class="radio-inline">
+            <%= radio_button f, :gender, "f" %>
+            <img src="<%= path(@conn, "/images/female-sign.png") %>"
+                 alt="Female" width="30">
+          </label>
+        </div>
+      </div>
+      <%= submit "Play Islands!", class: "btn btn-primary game-btn" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<details id="join-channel-data"
+         data-auth-token="<%= @auth_token %>"
+         data-game-name="<%= @game_name %>"
+         data-game-url="<%= @game_url %>"
+         data-player-id="<%= @player_id %>">
+</details>
+
+<div id="mounting-point"></div>

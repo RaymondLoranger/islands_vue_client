@@ -16,7 +16,14 @@ defmodule Islands.Vue.ClientWeb.Router do
   scope "/", Islands.Vue.ClientWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", GameController, :new
+    get "/games/new", GameController, :new
+    get "/games/:id", GameController, :join
+    # resources "/games", GameController, only: [:new, :create, :show]
+
+    get "/sessions/new", SessionController, :new
+    post "/sessions", SessionController, :create
+    # resources "/sessions", SessionController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.
