@@ -18,7 +18,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Terminator do
           }
         }
       ) do
-    Logger.warn("#{player_name} (#{player_id}} has left game '#{game_name}'.")
+    Logger.warn("#{player_name} (#{player_id}) has left game '#{game_name}'.")
     Logger.warn("Reason: #{inspect(reason)}")
     GameEnder.end_game(game_name)
   end

@@ -1,13 +1,14 @@
-const path = require('path');
-const glob = require('glob');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path')
+const glob = require('glob')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = (env, options) => {
-  const devMode = options.mode !== 'production';
+  const devMode = options.mode !== 'production'
 
   return {
     optimization: {
@@ -24,9 +25,18 @@ module.exports = (env, options) => {
       path: path.resolve(__dirname, '../priv/static/js'),
       publicPath: '/js/'
     },
+    resolve: {
+      alias: {
+        vue$: 'vue/dist/vue.common.js'
+      }
+    },
     devtool: devMode ? 'eval-cheap-module-source-map' : undefined,
     module: {
       rules: [
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader'
+        },
         {
           test: /\.js$/,
           exclude: /node_modules/,
@@ -46,8 +56,9 @@ module.exports = (env, options) => {
     },
     plugins: [
       new MiniCssExtractPlugin({ filename: '../css/app.css' }),
-      new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
+      new CopyWebpackPlugin([{ from: 'static/', to: '../' }]),
+      new VueLoaderPlugin()
     ]
     .concat(devMode ? [new HardSourceWebpackPlugin()] : [])
   }
-};
+}

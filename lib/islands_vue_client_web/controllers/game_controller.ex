@@ -43,17 +43,15 @@ defmodule Islands.Vue.ClientWeb.GameController do
   end
 
   defp require_player(conn, _opts) do
-    player = get_session(conn, :player)
-
-    case player && player.pid == self() do
-      true ->
-        conn
-
-      _else ->
+    case get_session(conn, :player) do
+      nil ->
         conn
         |> put_session(:return_to, conn.request_path)
         |> redirect(to: Routes.session_path(conn, :new))
         |> halt()
+
+      _player ->
+        conn
     end
   end
 end
