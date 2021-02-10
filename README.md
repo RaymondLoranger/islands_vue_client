@@ -14,7 +14,7 @@ The players have matching sets of islands of various shapes and sizes, which
 they place on their own boards.
 
 |Island |Squares|
-|-------|:-----:|
+|:-----:|:-----:|
 |Atoll  |   5   |
 |S-Shape|   4   |
 |L-Shape|   4   |
