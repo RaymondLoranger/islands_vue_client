@@ -13,13 +13,13 @@ The players cannot see each other’s boards.
 The players have matching sets of islands of various shapes and sizes, which
 they place on their own boards.
 
-|Island  |Squares|
-|--------|:-----:|
-| Atoll  |  5    |
-| S-Shape|  4    |
-| L-Shape|  4    |
-| Square |  4    |
-| Dot    |  1    |
+|Island |Squares|
+|-------|:-----:|
+|Atoll  |   5   |
+|S-Shape|   4   |
+|L-Shape|   4   |
+|Square |   4   |
+|Dot    |   1   |
 
 The players can move the islands around as much as they like until they say
 that they are set. After that, the islands must stay where they are for the
