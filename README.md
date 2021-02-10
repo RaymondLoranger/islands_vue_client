@@ -9,10 +9,10 @@ grid of one hundred squares. The grid is labeled with the numbers 1 through
 
 The players cannot see each other’s boards.
 
-The players have matching sets of islands of various shapes and sizes, which
-they place on their own boards. The players can move the islands around as
-much as they like until they say that they are set. After that, the islands must
-stay where they are for the rest of the game.
+The players have matching sets of islands<sup>[1](#footnote1)</sup> of various
+shapes and sizes, which they place on their own boards. The players can move
+the islands around as much as they like until they say that they are set. After
+that, the islands must stay where they are for the rest of the game.
 
 Once both players have set their islands, they take turns guessing squares
 on their opponent’s board, trying to find the islands. For every correct guess,
@@ -21,7 +21,11 @@ of an island have palm trees, the island is forested.
 
 The first player to forest all of her opponent’s islands is the winner.
 
+<sup><a name="footnote1">1</a></sup> Atoll, S-Shape, L-Shape, Square and Dot.
+
 ##### Based on the book [Functional Web Development](https://pragprog.com/book/lhelph/functional-web-development-with-elixir-otp-and-phoenix) by Lance Halvorsen.
+
+## ![game](assets/static/images/game-of-islands.png)
 
 To start your Phoenix server:
 
