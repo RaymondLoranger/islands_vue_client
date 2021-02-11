@@ -13,13 +13,13 @@ The players cannot see each other’s boards.
 The players have matching sets of islands of various shapes and sizes, which
 they place on their own boards.
 
-|Island       |Symbol|Squares|Shape                                       |
-|-------------|:----:|:-----:|:------------------------------------------:|
-|&nbsp;Atoll  |  A   |   5   |![atoll](assets/static/images/atoll.png)    |
-|&nbsp;S-Shape|  S   |   4   |![s-shape](assets/static/images/s-shape.png)|
-|&nbsp;L-Shape|  L   |   4   |![l-shape](assets/static/images/l-shape.png)|
-|&nbsp;Square |  Q   |   4   |![square](assets/static/images/square.png)  |
-|&nbsp;Dot    |  D   |   1   |![dot](assets/static/images/dot.png)        |
+|Island             |Symbol|Squares|Shape              |
+|-------------------|:----:|:-----:|:-----------------:|
+|&nbsp;&nbsp;Atoll  |  A   |   5   |![atoll][atoll]    |
+|&nbsp;&nbsp;S-Shape|  S   |   4   |![s-shape][s-shape]|
+|&nbsp;&nbsp;L-Shape|  L   |   4   |![l-shape][l-shape]|
+|&nbsp;&nbsp;Square |  Q   |   4   |![square][square]  |
+|&nbsp;&nbsp;Dot    |  D   |   1   |![dot][dot]        |
 
 The players can move the islands around as much as they like until they say
 that they are set. After that, the islands must stay where they are for the
@@ -53,3 +53,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+[atoll]: assets/static/images/atoll.png
+[s-shape]: assets/static/images/s-shape.png
+[l-shape]: assets/static/images/l-shape.png
+[square]: assets/static/images/square.png
+[dot]: assets/static/images/dot.png
