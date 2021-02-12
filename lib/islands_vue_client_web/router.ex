@@ -16,7 +16,8 @@ defmodule Islands.Vue.ClientWeb.Router do
   scope "/", Islands.Vue.ClientWeb do
     pipe_through :browser
 
-    get "/", GameController, :new
+    get "/", GameController, :index
+    get "/games", GameController, :index
     get "/games/new", GameController, :new
     get "/games/:id", GameController, :join
     # resources "/games", GameController, only: [:new, :create, :show]

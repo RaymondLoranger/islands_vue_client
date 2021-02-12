@@ -2,12 +2,17 @@ defmodule Islands.Vue.ClientWeb.GameController do
   use Islands.Vue.ClientWeb, :controller
 
   alias Islands.Client.State
-  alias Islands.{Game, Player}
+  alias Islands.{Engine, Game, Player}
   alias Phoenix.Token
 
   @salt Application.get_env(:islands_vue_client, :salt)
 
-  plug :require_player
+  plug :require_player when action != :index
+
+  def index(conn, _params) do
+    games_overview = Engine.games_overview()
+    render conn, "index.html", overviews: games_overview
+  end
 
   def new(conn, _params) do
     game_name = Game.haiku_name()

@@ -1,0 +1,31 @@
+<h2 align="center">Games Overview</h2>
+<span style="margin: 20px;"></span>
+<div class="container">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Game Name</th>
+      <th scope="col">Player 1</th>
+      <th scope="col">Player 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for overview <- @overviews do %>
+    <tr>
+      <th scope="row"><%= overview.game_name %></th>
+      <td><%= player1(overview) %></td>
+      <td>
+        <%= if overview.player2_name == "?" do
+              link "Join",
+                     method: :get,
+                     to: Routes.game_url(@conn, :join, overview.game_name)
+            else
+              player2(overview)
+            end
+        %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
