@@ -3,7 +3,13 @@ defmodule Islands.Vue.ClientWeb.GameView do
 
   import Phoenix.HTML, only: [raw: 1]
 
-  def player(%{name: name, gender: _gender} = _overview_player) do
-    ~s|#{name} <img src="/images/male-sign.png">| |> raw()
+  def player(%{name: name, gender: gender} = _player) do
+    ~s|#{name} <img src="#{img(gender)}">| |> raw()
   end
+
+  ## Private functions
+
+  defp img(:m = _gender), do: "/images/male-sign.png"
+  defp img(:f = _gender), do: "/images/female-sign.png"
+  defp img(_gender), do: "/images/question-mark.png"
 end
