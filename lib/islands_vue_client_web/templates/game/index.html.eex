@@ -12,15 +12,14 @@
   <tbody>
     <%= for overview <- @overviews do %>
     <tr>
-      <th scope="row"><%= overview.game_name %></th>
-      <td><%= player1(overview) %></td>
+      <th scope="row"><%= overview.name %></th>
+      <td><%= player(overview.player1) %></td>
       <td>
-        <%= if overview.player2_name == "?" do
-              link "Join",
-                     method: :get,
-                     to: Routes.game_url(@conn, :join, overview.game_name)
+        <%= if overview.player2.name == "?" do
+              link "Join", method: :get, target: "_blank",
+                   to: Routes.game_url(@conn, :join, overview.game_name)
             else
-              player2(overview)
+              player(overview.player2)
             end
         %>
       </td>

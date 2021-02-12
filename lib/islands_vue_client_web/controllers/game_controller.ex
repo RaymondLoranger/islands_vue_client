@@ -10,8 +10,8 @@ defmodule Islands.Vue.ClientWeb.GameController do
   plug :require_player when action != :index
 
   def index(conn, _params) do
-    games_overview = Engine.games_overview()
-    render conn, "index.html", overviews: games_overview
+    overviews = Engine.game_overviews()
+    render conn, "index.html", overviews: overviews
   end
 
   def new(conn, _params) do
