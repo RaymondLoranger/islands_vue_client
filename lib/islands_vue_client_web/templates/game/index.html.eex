@@ -12,7 +12,7 @@
       <tbody>
         <%= for overview <- @overviews do %>
         <tr>
-          <th scope="row"><%= overview.game_name %></th>
+          <td scope="row"><%= overview.game_name %></td>
           <td><%= player(overview.player1) %></td>
           <td>
             <%= if overview.player2.name == "?" do
