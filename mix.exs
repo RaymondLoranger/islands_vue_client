@@ -4,7 +4,7 @@ defmodule Islands.Vue.Client.MixProject do
   def project do
     [
       app: :islands_vue_client,
-      version: "0.1.7",
+      version: "0.1.8",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -61,7 +61,6 @@ defmodule Islands.Vue.Client.MixProject do
       # {:file_only_logger, "~> 0.1"},
       {:gettext, "~> 0.11"},
       {:islands_client_random_guess, "~> 0.1"},
-      {:islands_client_state, "~> 0.1"},
       {:islands_engine, "~> 0.2"},
       {:jason, "~> 1.0"},
       {:log_reset, "~> 0.1"},

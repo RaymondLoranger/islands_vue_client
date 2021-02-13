@@ -1,8 +1,9 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.RandomGuess do
   import Islands.Vue.ClientWeb.GameChannel.Event
 
-  alias Islands.Client.{RandomGuess, State}
+  alias Islands.Client.RandomGuess
   alias Islands.{Coord, Engine, Tally}
+  alias Islands.Vue.Client.Player
   alias Islands.Vue.ClientWeb.GameChannel.GuessCoord
   alias Phoenix.Socket
 
@@ -11,7 +12,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.RandomGuess do
         payload,
         %Socket{
           assigns: %{
-            player_state: %State{
+            player: %Player{
               game_name: game_name,
               player_id: player_id,
               mode: mode,

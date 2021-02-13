@@ -1,7 +1,7 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.ChatMessage do
   import Phoenix.Channel, only: [broadcast!: 3]
 
-  alias Islands.Client.State
+  alias Islands.Vue.Client.Player
   alias Phoenix.Socket
 
   @spec handle_in(map, Socket.t()) :: {:noreply, Socket.t()}
@@ -9,7 +9,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.ChatMessage do
         %{"body" => body} = _payload,
         %Socket{
           assigns: %{
-            player_state: %State{player_name: player_name, gender: gender}
+            player: %Player{player_name: player_name, gender: gender}
           }
         } = socket
       ) do

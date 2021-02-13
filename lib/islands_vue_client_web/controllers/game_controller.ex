@@ -1,8 +1,8 @@
 defmodule Islands.Vue.ClientWeb.GameController do
   use Islands.Vue.ClientWeb, :controller
 
-  alias Islands.Client.State
-  alias Islands.{Engine, Game, Player}
+  alias Islands.Vue.Client.Player
+  alias Islands.{Engine, Game}
   alias Phoenix.Token
 
   @salt Application.get_env(:islands_vue_client, :salt)
@@ -16,34 +16,34 @@ defmodule Islands.Vue.ClientWeb.GameController do
 
   def new(conn, _params) do
     game_name = Game.haiku_name()
-    %Player{name: name, gender: gender} = get_session(conn, :player)
+    player = get_session(conn, :player) |> Player.update(game_name, :player1)
 
     conn
     # Allows next player to join game from other tabs of same browser...
     |> delete_session(:player)
-    |> show(State.new(game_name, :player1, name, gender, basic: true))
+    |> show(player)
   end
 
   def join(conn, %{"id" => game_name} = _params) do
-    %Player{name: name, gender: gender} = get_session(conn, :player)
+    player = get_session(conn, :player) |> Player.update(game_name, :player2)
 
     conn
     # Allows next player to join game from other tabs of same browser...
     |> delete_session(:player)
-    |> show(State.new(game_name, :player2, name, gender, basic: true))
+    |> show(player)
   end
 
   ## Private functions
 
   defp show(
          conn,
-         %State{game_name: game_name, player_id: player_id} = player_state
+         %Player{game_name: game_name, player_id: player_id} = player
        ) do
     conn
     |> assign(:player_id, player_id)
     |> assign(:game_url, Routes.game_url(conn, :join, game_name))
     |> assign(:game_name, game_name)
-    |> assign(:auth_token, Token.sign(conn, @salt, player_state))
+    |> assign(:auth_token, Token.sign(conn, @salt, player))
     |> render("show.html")
   end
 

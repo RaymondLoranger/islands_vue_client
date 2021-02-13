@@ -1,7 +1,7 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.OpponentLeft do
   import Islands.Vue.ClientWeb.GameChannel.Event, only: [push: 3]
 
-  alias Islands.Client.State
+  alias Islands.Vue.Client.Player
   alias Phoenix.Socket
 
   require Logger
@@ -11,7 +11,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.OpponentLeft do
         payload,
         %Socket{
           assigns: %{
-            player_state: %State{game_name: game_name, player_name: player_name}
+            player: %Player{game_name: game_name, player_name: player_name}
           }
         } = socket
       )

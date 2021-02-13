@@ -1,15 +1,15 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.PlayersSet do
   import Islands.Vue.ClientWeb.GameChannel.Event
 
-  alias Islands.Client.State
   alias Islands.{Board, Engine, Tally}
+  alias Islands.Vue.Client.Player
   alias Phoenix.Socket
 
   @spec handle_info(Socket.t()) :: {:noreply, Socket.t()}
   def handle_info(
         %Socket{
           assigns: %{
-            player_state: %State{
+            player: %Player{
               game_name: game_name,
               player_name: player_name,
               player_id: :player1
@@ -42,7 +42,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.PlayersSet do
 
   def handle_info(
         %Socket{
-          assigns: %{player_state: %State{player_id: :player2}}
+          assigns: %{player: %Player{player_id: :player2}}
         } = socket
       ) do
     push(:opponent_set_islands, socket, {})

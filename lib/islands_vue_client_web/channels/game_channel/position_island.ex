@@ -1,8 +1,8 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.PositionIsland do
   import Islands.Vue.ClientWeb.GameChannel.Event
 
-  alias Islands.Client.State
   alias Islands.{Engine, Island, Tally}
+  alias Islands.Vue.Client.Player
   alias Phoenix.Socket
 
   @spec handle_in(map, Socket.t()) :: {:noreply, Socket.t()}
@@ -13,7 +13,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.PositionIsland do
         } = _payload,
         %Socket{
           assigns: %{
-            player_state: %State{
+            player: %Player{
               game_name: game_name,
               player_id: player_id
             }

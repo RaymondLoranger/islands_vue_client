@@ -1,5 +1,5 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.Terminator do
-  alias Islands.Client.State
+  alias Islands.Vue.Client.Player
   alias Islands.Vue.ClientWeb.GameChannel.GameEnder
   alias Phoenix.Socket
 
@@ -10,7 +10,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Terminator do
         reason,
         %Socket{
           assigns: %{
-            player_state: %State{
+            player: %Player{
               game_name: game_name,
               player_name: player_name,
               player_id: player_id

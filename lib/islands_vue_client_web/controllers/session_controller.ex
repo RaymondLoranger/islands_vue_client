@@ -1,14 +1,14 @@
 defmodule Islands.Vue.ClientWeb.SessionController do
   use Islands.Vue.ClientWeb, :controller
 
-  alias Islands.Player
+  alias Islands.Vue.Client.Player
 
   def new(conn, _) do
     render(conn, "new.html")
   end
 
   def create(conn, %{"player" => %{"name" => name, "gender" => gender}}) do
-    player = Player.new(name, String.to_atom(gender), self(), basic: true)
+    player = Player.new(name, String.to_atom(gender))
 
     conn
     |> put_session(:player, player)

@@ -1,8 +1,8 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.GameOver do
   import Islands.Vue.ClientWeb.GameChannel.Event
 
-  alias Islands.Client.State
   alias Islands.{Board, Engine, Tally}
+  alias Islands.Vue.Client.Player
   alias Islands.Vue.ClientWeb.GameChannel.GameEnder
   alias Phoenix.Socket
 
@@ -12,7 +12,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.GameOver do
   def handle_info(
         %Socket{
           assigns: %{
-            player_state: %State{
+            player: %Player{
               game_name: game_name,
               player_name: player_name,
               player_id: player_id

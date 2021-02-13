@@ -27,7 +27,7 @@ defmodule Islands.Vue.ClientWeb.UserSocket do
   @impl true
   def connect %{"token" => token}, socket do
     case Phoenix.Token.verify(socket, @salt, token, max_age: 86400) do
-      {:ok, player_state} -> {:ok, assign(socket, :player_state, player_state)}
+      {:ok, player} -> {:ok, assign(socket, :player, player)}
       {:error, _reason} -> :error
     end
   end

@@ -1,8 +1,8 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.AfterJoin do
   import Islands.Vue.ClientWeb.GameChannel.Event
 
-  alias Islands.Client.State
   alias Islands.{Board, Engine, Tally}
+  alias Islands.Vue.Client.Player
   alias Islands.Vue.ClientWeb.Presence
   alias Phoenix.Socket
 
@@ -10,7 +10,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.AfterJoin do
   def handle_info(
         %Socket{
           assigns: %{
-            player_state: %State{
+            player: %Player{
               game_name: game_name,
               player_name: player_name,
               gender: gender,
@@ -39,7 +39,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.AfterJoin do
   def handle_info(
         %Socket{
           assigns: %{
-            player_state: %State{
+            player: %Player{
               game_name: game_name,
               player_name: player_name,
               gender: gender,

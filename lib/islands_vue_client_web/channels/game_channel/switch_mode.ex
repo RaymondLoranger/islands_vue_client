@@ -1,7 +1,7 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.SwitchMode do
   import Islands.Vue.ClientWeb.GameChannel.Event
 
-  alias Islands.Client.State
+  alias Islands.Vue.Client.Player
   alias Islands.Vue.ClientWeb.GameChannel.RandomGuess
   alias Phoenix.Socket
 
@@ -14,8 +14,8 @@ defmodule Islands.Vue.ClientWeb.GameChannel.SwitchMode do
 
     socket =
       update_in(
-        socket.assigns.player_state,
-        &%State{&1 | mode: mode, pause: pause}
+        socket.assigns.player,
+        &Player.switch_mode(&1, mode, pause)
       )
 
     push(:set_mode, socket, {mode})

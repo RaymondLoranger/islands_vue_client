@@ -1,13 +1,13 @@
 defmodule Islands.Vue.ClientWeb.GameChannel.Joiner do
-  alias Islands.Client.State
   alias Islands.{Engine, Tally}
+  alias Islands.Vue.Client.Player
   alias Phoenix.Socket
 
   @spec join(Socket.t()) :: {:ok, Socket.t()} | {:error, map}
   def join(
         %Socket{
           assigns: %{
-            player_state: %State{
+            player: %Player{
               game_name: game_name,
               player_name: player_name,
               gender: gender,
@@ -29,7 +29,7 @@ defmodule Islands.Vue.ClientWeb.GameChannel.Joiner do
   def join(
         %Socket{
           assigns: %{
-            player_state: %State{
+            player: %Player{
               game_name: game_name,
               player_name: player_name,
               gender: gender,
