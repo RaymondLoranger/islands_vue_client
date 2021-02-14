@@ -71,8 +71,13 @@
         Built with
         <a href="http://elixir-lang.org/" target="_blank">Elixir</a> +
         <a href="http://www.phoenixframework.org/" target="_blank">Phoenix</a> +
-        <a href="https://vuejs.org/" target="_blank">Vue</a> +
-        <a href="https://vuex.vuejs.org/" target="_blank">Vuex</a>
+        <a href="https://vuejs.org/v2/guide/components.html" target="_blank">
+          Vue components
+        </a> +
+        <a href="https://vuex.vuejs.org/#what-is-a-state-management-pattern"
+           target="_blank">
+          Vuex
+        </a>
         by
         <a href="https://github.com/RaymondLoranger" target="_blank">
           Raymond Loranger

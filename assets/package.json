@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "deploy": "webpack --mode production",
-    "watch": "webpack --mode development --watch"
+    "watch": "webpack --mode development --watch",
+    "clear-hard-source-cache": "rm -rf node_modules/.cache/hard-source/"
   },
   "dependencies": {
     "phoenix": "file:../deps/phoenix",
