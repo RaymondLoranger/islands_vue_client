@@ -1,0 +1,264 @@
+// Variable overrides
+// $body-bg: LightGrey;
+// $body-color: rgb(19, 3, 3);
+
+// $primary: #3d29b3;
+// $danger: #ff4136;
+
+:root {
+  --male-color: #1a1aff;
+  --female-color: #ff00ff; /* Fuchsia */
+  --distinct-color: #cc33ff;
+  --background-color: Khaki;
+  --background-image: url("data:image/svg+xml,%3Csvg width='70' height='70' viewBox='0 0 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%238064a2' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M0 0h35v35H0V0zm5 5h25v25H5V5zm5 5h15v15H10V10zm5 5h5v5h-5v-5zM40 5h25v25H40V5zm5 5h15v15H45V10zm5 5h5v5h-5v-5zM70 35H35v35h35V35zm-5 5H40v25h25V40zm-5 5H45v15h15V45zm-5 5h-5v5h5v-5zM30 40H5v25h25V40zm-5 5H10v15h15V45zm-5 5h-5v5h5v-5z'/%3E%3C/g%3E%3C/svg%3E");
+  --ss: 3vw; /* square size */
+}
+
+body {
+  background: var(--background-color);
+  background-image: var(--background-image);
+}
+body > .main {
+  /* border: 2px var(--background-color) groove; */
+  font-size: calc(2vw - 6px);
+  border-radius: 4px;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Arial, sans-serif;
+  margin: 2vw 2.1vw 2vw 2vw;
+  overflow-x: hidden; /* hide horizontal scrollbar */
+}
+.male {
+  color: var(--male-color);
+}
+.female {
+  color: var(--female-color);
+}
+.distinct {
+  color: var(--distinct-color);
+}
+
+/* Game List
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+#game-list {
+  h2 {
+    text-align: center;
+    margin: 3vw;
+  }
+  table th {
+    font-size: calc(1vw + 9px);
+  }
+  table td {
+    font-size: calc(9px + 0.9vw);
+    font-weight: 600;
+  }
+  table img {
+    height: calc(9px + 0.9vw);
+    width: calc(9px + 0.9vw);
+  }
+  .join-button {
+    width: calc(7vw);
+  }
+}
+
+/* Title Letters
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.letters {
+  margin-bottom: 20px;
+}
+.letters .letter {
+  font-size: 1.8vw;
+  padding: 5px 8px;
+  font-weight: 800;
+  color: rgb(41, 41, 41);
+  background: #fff;
+  margin-right: -0.5vw;
+  border: 1px solid #CCC;
+}
+.letters .letter:hover {
+  color: #fff;
+  background: rgb(13, 114, 173);
+}
+.letters .letter.inverse {
+  background: rgb(41, 41, 41);
+  color: #fff;
+}
+.letters .letter.inverse:hover {
+  background: rgb(127, 177, 206);
+  color: #fff;
+}
+
+/* Footer
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+footer {
+  color: #9fa1a1;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 25px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-size: calc(7px + 0.7vw);
+}
+footer a:hover {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Navigation
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+nav ul.nav {
+  margin-bottom: 5px;
+}
+nav ul.nav a {
+  font-size: calc(7px + 0.7vw);
+}
+
+/* Bootstrap Navigation Customizations
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.nav > li > a {
+  position: relative;
+  display: block;
+  padding: 10px 15px 5px;
+}
+
+/* Bootstrap Alert Customizations
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+#app {
+  .alert-info {
+    color: #31708f;
+    background: none;
+    border: none;
+  }
+  .alert-warning {
+    color: #8a6d3b;
+    background: none;
+    border: none;
+  }
+  .alert-success {
+    color: #3c763d;
+    background: none;
+    border: none;
+  }
+  .alert-success-distinct {
+    color: var(--background-color);
+    background: #3c763d;
+    border: none;
+  }
+  .alert-danger {
+    color: #a94442;
+    background: none;
+    border: none;
+  }
+  .alert {
+    padding: 1px;
+    margin-bottom: 1px;
+    text-align: center;
+    border: none;
+    background: none;
+    font-size: calc(9px + 0.9vw);
+    font-weight: 550;
+  }
+}
+
+/* Bootstrap Group Customizations
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+}
+.form-group {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.form-group > input {
+  font-size: calc(8px + 0.8vw);
+}
+.panel {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.panel-default > .panel-heading {
+  padding: 5px 10px;
+  background: #337ab7;
+  color: white;
+}
+.panel .panel-body {
+  padding: 0;
+}
+.panel .list-group {
+  margin-bottom: 0;
+}
+.panel .list-group .list-group-item {
+  border-width: 1px;
+}
+.panel .list-group-item:first-child {
+  border-top-width: 0;
+}
+.panel .list-group .list-group-item:last-child {
+  border-bottom: 0;
+}
+.panel .panel-heading + .list-group .list-group-item:first-child {
+  border-top-width: 0;
+}
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 2px 3px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+/* Game Button
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.game-btn {
+  font-size: calc(8px + 0.6vw);
+}
+
+/* Bootstrap Button Customizations
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.btn-primary {
+  color: #fff;
+}
+.btn.btn-primary:disabled {
+  background-color: #8B8C8F;
+  border-color: #8B8C8F;
+}
+.btn-primary:focus, .btn-primary.focus {
+  color: #fff;
+}
+.btn-primary:hover {
+  color: #fff;
+}
+.btn-primary:active, .btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background-image: none;
+}
+.btn-primary:active:hover, .btn-primary.active:hover,
+.btn-primary:active:focus, .btn-primary.active:focus,
+.btn-primary:active.focus, .btn-primary.active.focus,
+.open > .dropdown-toggle.btn-primary:hover,
+.open > .dropdown-toggle.btn-primary:focus,
+.open > .dropdown-toggle.btn-primary.focus {
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+}
+.btn-primary.disabled:hover, .btn-primary[disabled]:hover,
+.btn-primary.disabled:focus, .btn-primary[disabled]:focus,
+.btn-primary.disabled.focus, .btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary:hover,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary.focus {
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+}

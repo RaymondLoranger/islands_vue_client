@@ -34,5 +34,5 @@ npm-debug.log
 /priv/static/
 
 /pencil/
-/assets/css
-/assets/js
+# /assets/css
+# /assets/js
