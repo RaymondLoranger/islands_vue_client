@@ -31,7 +31,7 @@ config :islands_vue_client, Islands.Vue.ClientWeb.Endpoint,
   ]
 
 # Signing salt to sign messages between the server and the client...
-config :islands_vue_client, salt: "state auth"
+config :islands_vue_client, salt: "player auth"
 
 # Configures Elixir's Logger
 config :logger, :console,
