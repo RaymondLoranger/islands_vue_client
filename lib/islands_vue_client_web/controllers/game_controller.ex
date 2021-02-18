@@ -2,6 +2,7 @@ defmodule Islands.Vue.ClientWeb.GameController do
   use Islands.Vue.ClientWeb, :controller
 
   alias Islands.Vue.Client.Player
+  alias Islands.Vue.ClientWeb.Endpoint
   alias Islands.{Engine, Game}
   alias Phoenix.Token
 
@@ -41,7 +42,7 @@ defmodule Islands.Vue.ClientWeb.GameController do
        ) do
     conn
     |> assign(:player_id, player_id)
-    |> assign(:game_url, Routes.game_url(conn, :join, game_name))
+    |> assign(:game_url, game_url(conn, game_name))
     |> assign(:game_name, game_name)
     |> assign(:auth_token, Token.sign(conn, @salt, player))
     |> render("show.html")
@@ -58,5 +59,9 @@ defmodule Islands.Vue.ClientWeb.GameController do
       _player ->
         conn
     end
+  end
+
+  defp game_url(conn, game_name) do
+    Endpoint.url() <> Routes.game_path(conn, :join, game_name)
   end
 end

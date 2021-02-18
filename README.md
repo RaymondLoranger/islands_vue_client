@@ -32,7 +32,9 @@ of an island have palm trees, the island is forested.
 
 The first player to forest all of her opponent’s islands is the winner.
 
-##### Based on the book [Functional Web Development](https://pragprog.com/book/lhelph/functional-web-development-with-elixir-otp-and-phoenix) by Lance Halvorsen.
+##### Inspired by the book [Functional Web Development](https://pragprog.com/book/lhelph/functional-web-development-with-elixir-otp-and-phoenix) by Lance Halvorsen.
+
+##### Also inspired by the course [Multi-Player Bingo](https://pragmaticstudio.com/courses/unpacked-bingo) by Mike and Nicole Clark.
 
 ## ![game](assets/static/images/game-of-islands.png)
 

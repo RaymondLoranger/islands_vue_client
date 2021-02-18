@@ -36,3 +36,10 @@ npm-debug.log
 /pencil/
 # /assets/css
 # /assets/js
+/config_gigalixir/
+/config_render/
+/config_prelim/
+.buildpacks
+build.sh
+elixir_buildpack.config
+phoenix_static_buildpack.config

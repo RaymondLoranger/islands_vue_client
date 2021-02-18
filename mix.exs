@@ -71,6 +71,7 @@ defmodule Islands.Vue.Client.MixProject do
       {:phx_formatter, "~> 0.1", only: :dev, runtime: false},
       {:plug_cowboy, "~> 2.0"},
       # Gigalixir doesn't suport Erlang 22 yet...
+      # https://hexdocs.pm/phoenix/installation.html#erlang-20-or-later
       {:cowboy, "~> 2.7.0"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"}

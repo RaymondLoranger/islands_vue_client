@@ -187,9 +187,7 @@ export default {
   grid-column: 3 / span 1;
 }
 
-/* styles for browsers smaller than 900px */
-
-@media (max-width: 900px) {
+@media (max-width: 900px) { /* styles for widths <= 900px */
   .grid {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: repeat(9, auto);
@@ -286,6 +284,11 @@ export default {
   margin: 2px;
   white-space: nowrap;
 }
+@media (max-width: 768px) { /* styles for widths <= 768px */
+  .score-box > p {
+    font-size: calc(11px + 0.9vw);
+  }
+}
 .score-box .forested {
   background: ForestGreen;
   color: White;
@@ -324,5 +327,10 @@ div.control {
   line-height: var(--ss);
   font-weight: 600;
   font-size: 2vw;
+}
+@media (max-width: 768px) { /* styles for widths <= 768px */
+  .tag {
+    font-size: 4vw;
+  }
 }
 </style>
