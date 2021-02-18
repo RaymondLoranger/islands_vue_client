@@ -36,9 +36,7 @@ npm-debug.log
 /pencil/
 # /assets/css
 # /assets/js
-/config_gigalixir/
-/config_render/
-/config_prelim/
+/deployment/
 build.sh
 # .buildpacks
 # elixir_buildpack.config

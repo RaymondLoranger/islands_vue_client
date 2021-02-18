@@ -62,6 +62,9 @@ defmodule Islands.Vue.ClientWeb.GameController do
   end
 
   defp game_url(conn, game_name) do
-    Endpoint.url() <> Routes.game_path(conn, :join, game_name)
+    case Application.get_env(:islands_vue_client, Endpoint)[:url][:host] do
+      "localhost" -> Routes.game_url(conn, :join, game_name)
+      host -> host <> Routes.game_path(conn, :join, game_name)
+    end
   end
 end
