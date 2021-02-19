@@ -2,11 +2,14 @@ defmodule Islands.Vue.ClientWeb.SessionController do
   use Islands.Vue.ClientWeb, :controller
 
   alias Islands.Vue.Client.Player
+  alias Plug.Conn
 
-  def new(conn, _) do
+  @spec new(Conn.t(), map) :: Conn.t()
+  def new(conn, _params) do
     render(conn, "new.html")
   end
 
+  @spec create(Conn.t(), map) :: Conn.t()
   def create(conn, %{"player" => %{"name" => name, "gender" => gender}}) do
     player = Player.new(name, String.to_atom(gender))
 
@@ -17,6 +20,7 @@ defmodule Islands.Vue.ClientWeb.SessionController do
 
   ## Private functions
 
+  @spec redirect_back_or_to_new_game(Conn.t()) :: Conn.t()
   defp redirect_back_or_to_new_game(conn) do
     # The 'return_to' path retrieved by 'get_session' will be nil if going
     # to '/sessions/new' directly instead of the usual '/' or '/games/new'.
