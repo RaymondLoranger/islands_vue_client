@@ -37,7 +37,3 @@ npm-debug.log
 # /assets/css
 # /assets/js
 /deployment/
-build.sh
-# .buildpacks
-# elixir_buildpack.config
-# phoenix_static_buildpack.config
