@@ -50,24 +50,6 @@ You position your islands by dragging them or hitting 'Random Positions'.
 Finally you hit 'Set Islands' and take turns guessing squares on your
 opponent's board. You can also let the engine play for you by hitting 'Auto'.
 
-## Running _Islands Vue Client_ locally
-
-To run `Islands Vue Client` locally, first clone it from GitHub:
-
-- git clone https://github.com/RaymondLoranger/islands_vue_client
-
-Then run these commands to build and launch the application:
-
-- cd islands_vue_client
-- mix deps.get
-- mix compile
-- cd assets
-- npm install
-- cd ..
-- mix phx.server
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
 ## Versions/Releases used
 
 - Phoenix v1.5.7
