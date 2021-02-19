@@ -58,21 +58,21 @@ To run `Islands Vue Client` locally, first clone it from GitHub:
 
 Then run these commands to build and launch the application:
 
-  - cd islands_vue_client
-  - mix deps.get
-  - mix compile
-  - cd assets
-  - npm install
-  - cd ..
-  - mix phx.server
+- cd islands_vue_client
+- mix deps.get
+- mix compile
+- cd assets
+- npm install
+- cd ..
+- mix phx.server
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-## Versions used
+## Versions/Releases used
 
-Phoenix v1.5.7
-Erlang/OTP 22
-Elixir 1.11.3
-Node v14.15.4
-Vue.js v2.6.12
-Vuex v3.6.2
+- Phoenix v1.5.7
+- Erlang/OTP 22
+- Elixir 1.11.3
+- Node v14.15.4
+- Vue.js v2.6.12
+- Vuex v3.6.2
