@@ -74,6 +74,19 @@ body > .main {
   }
   .join-button {
     width: calc(7vw);
+    padding: 1px 6px 1px 4px;
+  }
+}
+
+@media (max-width: 900px) { /* styles for widths <= 900px */
+  #game-list .join-button {
+    width: calc(10vw);
+  }
+}
+
+@media (max-width: 768px) { /* styles for widths <= 768px */
+  #game-list .join-button {
+    width: calc(14vw);
   }
 }
 
