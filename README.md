@@ -48,7 +48,7 @@ You can play the _Game of Islands_ by visiting either of these 2 sites:
 You then hit 'New Game' from one session and 'Join' from another.
 You position your islands by dragging them or hitting 'Random Positions'.
 Finally you hit 'Set Islands' and take turns guessing squares on your
-opponent's board.
+opponent's board. You can also let the engine play for you by hitting 'Auto'.
 
 ## Running _Islands Vue Client_ locally
 
