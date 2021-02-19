@@ -42,8 +42,8 @@ The first player to forest all of her opponent’s islands is the winner.
 
 You can play the _Game of Islands_ by visiting either of these 2 sites:
 
-* ![Islands on Gigalixir](https://unused-stained-newtnutria.gigalixirapp.com/)
-* ![Islands on Render](https://islands-0kdm.onrender.com/)
+* [Islands on Gigalixir](https://unused-stained-newtnutria.gigalixirapp.com/)
+* [Islands on Render](https://islands-0kdm.onrender.com/)
 
 ## To start your Phoenix server:
 
