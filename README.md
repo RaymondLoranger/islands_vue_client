@@ -76,3 +76,9 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - Node v14.15.4
 - Vue.js v2.6.12
 - Vuex v3.6.2
+
+[atoll]: assets/static/images/atoll.png
+[s-shape]: assets/static/images/s-shape.png
+[l-shape]: assets/static/images/l-shape.png
+[square]: assets/static/images/square.png
+[dot]: assets/static/images/dot.png
