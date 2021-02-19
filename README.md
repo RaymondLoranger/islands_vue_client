@@ -38,7 +38,14 @@ The first player to forest all of her opponent’s islands is the winner.
 
 ## ![game](assets/static/images/game-of-islands.png)
 
-To start your Phoenix server:
+## Play the _Game of Islands_!
+
+You can play the _Game of Islands_ by visiting either of these 2 sites:
+
+* ![Islands on Gigalixir](https://unused-stained-newtnutria.gigalixirapp.com/)
+* ![Islands on Render](https://islands-0kdm.onrender.com/)
+
+## To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
   * Install Node.js dependencies with `npm install` inside the `assets` directory
