@@ -45,26 +45,34 @@ You can play the _Game of Islands_ by visiting either of these 2 sites:
 * [Islands on Gigalixir](https://unused-stained-newtnutria.gigalixirapp.com/)
 * [Islands on Render](https://islands-0kdm.onrender.com/)
 
-## To start your Phoenix server:
+You then hit 'New Game' from one session and 'Join' from another.
+You position your islands by dragging them or hitting 'Random Positions'.
+Finally you hit 'Set Islands' and take turns guessing squares on your
+opponent's board.
 
-  * Install dependencies with `mix deps.get`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
+## Running _Islands Vue Client_ locally
+
+To run `Islands Vue Client` locally, first clone it from GitHub:
+
+- git clone https://github.com/RaymondLoranger/islands_vue_client
+
+Then run these commands to build and launch the application:
+
+  - cd islands_vue_client
+  - mix deps.get
+  - mix compile
+  - cd assets
+  - npm install
+  - cd ..
+  - mix phx.server
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Versions used
 
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
-
-[atoll]: assets/static/images/atoll.png
-[s-shape]: assets/static/images/s-shape.png
-[l-shape]: assets/static/images/l-shape.png
-[square]: assets/static/images/square.png
-[dot]: assets/static/images/dot.png
+Phoenix v1.5.7
+Erlang/OTP 22
+Elixir 1.11.3
+Node v14.15.4
+Vue.js v2.6.12
+Vuex v3.6.2
