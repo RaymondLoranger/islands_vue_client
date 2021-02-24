@@ -65,5 +65,5 @@ opponent's board. You can also let the engine play for you by hitting `Auto`.
 [square]: assets/static/images/square.png
 [dot]: assets/static/images/dot.png
 
-[Islands on Gigalixir]: (https://unused-stained-newtnutria.gigalixirapp.com/)
-[Islands on Render]: (https://islands-0kdm.onrender.com/)
+[Islands on Gigalixir]: https://unused-stained-newtnutria.gigalixirapp.com/
+[Islands on Render]: https://islands-0kdm.onrender.com/
