@@ -43,7 +43,7 @@ The first player to forest all of her opponent’s islands is the winner.
 You can play the _Game of Islands_ by visiting either of these 2 sites:
 
 * [Islands on Gigalixir][Islands on Gigalixir]
-* [Islands on Render][Islands on Render] (This service has been suspended.)
+* [Islands on Render][Islands on Render] (may be suspended)
 
 You then hit `New Game` from one session and `Join` from another.
 You position your islands by dragging them or hitting `Random Positions`.
