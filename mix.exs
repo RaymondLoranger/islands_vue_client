@@ -4,7 +4,7 @@ defmodule Islands.Vue.Client.MixProject do
   def project do
     [
       app: :islands_vue_client,
-      version: "0.1.14",
+      version: "0.1.15",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -70,9 +70,6 @@ defmodule Islands.Vue.Client.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phx_formatter, "~> 0.1", only: :dev, runtime: false},
       {:plug_cowboy, "~> 2.0"},
-      # Gigalixir doesn't suport Erlang 22 yet...
-      # https://hexdocs.pm/phoenix/installation.html#erlang-20-or-later
-      {:cowboy, "~> 2.7.0"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"}
     ]
