@@ -38,6 +38,7 @@ The first player to forest all of her opponent’s islands is the winner.
 
 ## ![game](assets/static/images/game-of-islands.png)
 
+
 ## Play the _Game of Islands_ online
 
 You can play the _Game of Islands_ by visiting either of these 2 sites:
@@ -49,6 +50,7 @@ You then hit `New Game` from one session and `Join` from another.
 You position your islands by dragging them or hitting `Random Positions`.
 Finally you hit `Set Islands` and take turns guessing squares on your
 opponent's board. You can also let the engine play for you by hitting `Auto`.
+
 
 ## Play the _Game of Islands_ locally
 
@@ -65,6 +67,7 @@ Then run these commands to start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+
 ## Versions/Releases used
 
 - Phoenix v1.5.7
@@ -73,6 +76,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - Node v14.15.4
 - Vue.js v2.6.12
 - Vuex v3.6.2
+
 
 [atoll]: assets/static/images/atoll.png
 [s-shape]: assets/static/images/s-shape.png
