@@ -38,7 +38,7 @@ The first player to forest all of her opponent’s islands is the winner.
 
 ## ![game](assets/static/images/game-of-islands.png)
 
-## Play the _Game of Islands_!
+## Play the _Game of Islands_ online
 
 You can play the _Game of Islands_ by visiting either of these 2 sites:
 
@@ -50,7 +50,7 @@ You position your islands by dragging them or hitting `Random Positions`.
 Finally you hit `Set Islands` and take turns guessing squares on your
 opponent's board. You can also let the engine play for you by hitting `Auto`.
 
-## Play the _Game of Islands_ locally!
+## Play the _Game of Islands_ locally
 
 To run `islands_vue_client` locally, first clone it from GitHub:
 
@@ -58,6 +58,7 @@ To run `islands_vue_client` locally, first clone it from GitHub:
 
 Then run these commands to start your Phoenix server:
 
+* Change directory with `cd islands_vue_client`
 * Install dependencies with `mix deps.get`
 * Install Node.js dependencies with `cd assets`, `npm install` and `cd ..`
 * Start Phoenix endpoint with `mix phx.server`
