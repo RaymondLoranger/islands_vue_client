@@ -36,6 +36,10 @@ The first player to forest all of her opponent’s islands is the winner.
 
 ##### Also inspired by the course [Multi-Player Bingo](https://pragmaticstudio.com/courses/unpacked-bingo) by Mike and Nicole Clark.
 
+
+
+## Game in progress
+
 ## ![game](assets/static/images/game-of-islands.png)
 
 
