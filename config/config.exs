@@ -5,7 +5,7 @@
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
+import Config
 
 config :islands_vue_client,
   namespace: Islands.Vue.Client

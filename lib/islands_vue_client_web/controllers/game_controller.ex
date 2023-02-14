@@ -6,7 +6,8 @@ defmodule Islands.Vue.ClientWeb.GameController do
   alias Phoenix.Token
   alias Plug.Conn
 
-  @salt Application.get_env(:islands_vue_client, :salt)
+  @salt :application.get_env(:islands_vue_client, :salt)
+  @salt elem(@salt, 1)
 
   plug :require_player when action != :index
 

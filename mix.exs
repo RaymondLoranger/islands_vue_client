@@ -4,10 +4,9 @@ defmodule Islands.Vue.Client.MixProject do
   def project do
     [
       app: :islands_vue_client,
-      version: "0.1.16",
+      version: "0.1.17",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       name: "Islands Vue Client",
       source_url: source_url(),
@@ -58,7 +57,7 @@ defmodule Islands.Vue.Client.MixProject do
     [
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
-      # {:file_only_logger, "~> 0.1"},
+      # {:file_only_logger, "~> 0.2"},
       {:gettext, "~> 0.11"},
       {:islands_client_random_guess, "~> 0.1"},
       {:islands_engine, "~> 0.2"},

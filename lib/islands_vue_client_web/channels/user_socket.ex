@@ -1,7 +1,8 @@
 defmodule Islands.Vue.ClientWeb.UserSocket do
   use Phoenix.Socket
 
-  @salt Application.get_env(:islands_vue_client, :salt)
+  @salt :application.get_env(:islands_vue_client, :salt)
+  @salt elem(@salt, 1)
 
   ## Channels
   # channel "room:*", Islands.Vue.ClientWeb.RoomChannel
